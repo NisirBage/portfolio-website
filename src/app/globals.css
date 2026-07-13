@@ -24,3 +24,14 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/*
+ * Tailwind has no built-in `image-rendering` utility, and pixel-art
+ * sprites blur under the browser's default smoothing at any non-native
+ * scale. `pixelated` is the modern standard value; `crisp-edges` is kept
+ * as a fallback for older Firefox, which historically ignored `pixelated`.
+ */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}

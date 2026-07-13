@@ -60,7 +60,7 @@ Same categories as State 1, alternate color palette (e.g., green sofas instead o
 
 | Asset Name | Category | Current Usage | Status |
 |---|---|---|---|
-| Complete rectangular room shell — 4 material zones (sage rug, rust wall/brick wainscoting, tan wood-paneled wall, orange tiled zone), full 4-wall border, 2 pre-cut door openings, 1 floor vent detail | Background / room shell | Base layer for the entire establishing shot | **VERIFIED** — this is one complete asset, not a tile system requiring assembly. Confirms Experience Architecture's "single continuous scene" is directly buildable from this one file with no compositing risk. |
+| Complete rectangular room shell — 4 material zones (sage rug, rust wall/brick wainscoting, tan wood-paneled wall, orange tiled zone), full 4-wall border, 2 pre-cut door openings, 1 floor vent detail | Background / room shell | Base layer for the entire establishing shot | **VERIFIED** — this is one complete asset, not a tile system requiring assembly. Confirms Experience Architecture's "single continuous scene" is directly buildable from this one file with no compositing risk. Door-gap coordinates pixel-measured during Milestone 2 (`ENGINEERING_DECISIONS.md`): left-wall gap x≈13–15/y≈33–78 (Zone 1); front-wall gap x≈88–135/y≈128–130 (Zone 2 — corrects `SPATIAL_BLUEPRINT.md`'s original "near the Zone 1/2 boundary" estimate). |
 
 ## `TopDownHouse_FloorsAndWalls_OpenDoors.png` (128×48px)
 
