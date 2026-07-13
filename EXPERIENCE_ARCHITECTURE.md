@@ -41,16 +41,18 @@ Physically Option B (one continuous **rectangular** scene, cheap, real, and — 
                           (Vision — tilt up)
                                   ▲
                                   │
-   Bookshelf ◄──────────────  The Desk  ──────────────►  Leadership Wall
-   (Research)                  (HUB —                      (Awards, roles,
-                          resume · contact ·                 case-comp work)
-                          project index)
+   Bookshelf ◄────►  Research   The Desk  ──────────────►  Leadership Wall
+   (Knowledge)        Journal    (HUB —                      (Awards, roles,
+                     (Research)  resume · contact ·           case-comp work)
+                                 project index)
                                   │
                                   ▼
                             Coffee Corner
                          (About · currently
                           exploring · contact)
 ```
+
+*Revised, Milestone 7.* The Bookshelf and Research Journal are two distinct, peer objects sharing Zone 3, not one object doing double duty — Knowledge (what shapes his thinking) and Research (how he contributes new thinking) are different claims with different evidence. See `NARRATIVE_SYSTEM.md`'s World Rules table for the full rationale.
 
 - **The Desk** is the only object visible and legible from Arrival at full detail — everything else is visible in the wide establishing shot but requires a zoom to read.
 - **Engineering evidence lives at the Desk itself**, not on a separate wall. The three projects are papers/objects *on* the desk surface — this is the Option A "Analytics" branch folded in, and is the one deliberate deviation from a strict five-spoke model. Reasoning: the real project inventory is three projects, all with dashboards/data-analysis components already inside them (the Safety Platform's dashboards *are* the analytics evidence). Giving Analytics its own branch would mean either duplicating that evidence or building a fourth, thinner branch — both violate Content Hierarchy's instruction to cut anything that dilutes rather than strengthens. Keeping Engineering unified at the hub also matches reality: engineering is *the* central activity, not one branch among equals.
@@ -60,11 +62,11 @@ Physically Option B (one continuous **rectangular** scene, cheap, real, and — 
 
 ## Zone Relationships
 
-All five destinations (Desk, Research, Leadership, Coffee Corner, Window) are visible in a single establishing shot — no zone is ever "behind" another or reachable only through a different zone. This matters for two reasons: it lets a fast visitor jump straight to whatever they care about (Recruiter Time Is Precious), and it means there is no possible "dead end" or "lost in the house" state, which a genuine multi-room layout risks.
+All six destinations (Desk, Bookshelf/Knowledge, Research Journal, Leadership, Coffee Corner, Window) are visible in a single establishing shot — no zone is ever "behind" another or reachable only through a different zone. This matters for two reasons: it lets a fast visitor jump straight to whatever they care about (Recruiter Time Is Precious), and it means there is no possible "dead end" or "lost in the house" state, which a genuine multi-room layout risks. *Revised, Milestone 7: count updated from five to six now that the Bookshelf and Research Journal are separate destinations rather than one.*
 
 Sightline priority (nearest → farthest from Desk, i.e. Critical → Optional per Content Hierarchy):
 1. Desk itself (resume, contact, project index) — Critical
-2. Leadership Wall + Research shelf — Important, symmetric either side
+2. Leadership Wall + Bookshelf/Knowledge + Research Journal — Important, Zone 3's two objects sharing the priority tier the single Research shelf previously held
 3. Window — Important but deliberately requires 3+ prior interactions to "light up" (see Narrative States)
 4. Coffee Corner — Optional, peripheral
 
@@ -76,7 +78,7 @@ Sightline priority (nearest → farthest from Desk, i.e. Critical → Optional p
 - **Contextual zoom, not scene changes.** Clicking a hotspot animates the viewport toward it; the underlying scene never unloads or reloads.
 - **Always-available home anchor.** A small, quiet "return to Desk" affordance is present the instant a visitor has zoomed anywhere — justified because without it a visitor mid-zoom has no way back except browser-back, which would reload the whole experience. This does not count as a "large navigation menu" (an explicitly banned pattern) — it's one small control, not a menu.
 - **Persistent Contact affordance.** A second small, quiet UI element — same visual weight class as the home anchor and the audio toggle — is present at all times, not just inside the Window panel. **This is a correction, not an original decision:** `CONTENT_HIERARCHY.md` places "Contact method" at Critical tier, meaning zero clicks from Arrival, but `INTERACTION_SPECIFICATION.md`'s Window entry described Contact primarily as something reached through the Window's narrative payoff — those two requirements directly contradicted each other. Resolved by having both: the persistent affordance satisfies the Critical-tier requirement for a fast visitor, and the Window panel still reiterates Contact as its narrative closing beat for a visitor who reaches it that way. Three total persistent elements (home anchor, audio toggle, contact) is still far short of "large navigation menu."
-- **No breadcrumbs, no site-wide nav bar.** Wayfinding comes from the room being small enough (six objects) to hold in memory, not from UI chrome.
+- **No breadcrumbs, no site-wide nav bar.** Wayfinding comes from the room being small enough (seven objects, *revised Milestone 7*) to hold in memory, not from UI chrome.
 
 ---
 
@@ -104,8 +106,8 @@ No object skips a level (nothing jumps from headline straight to source-code dep
 ## Recruiter Journey (mapped onto the hub)
 
 - **90 seconds (Software Engineer / ML Recruiter, fast pass):** Arrival → Desk Level 1 (name, one-line identity, project headlines) → one project opened to Level 2 → resume/contact, both reachable directly from the Desk without ever leaving it.
-- **5 minutes (typical persona):** Desk → one project to Level 3 → Leadership Wall Level 2 → Research shelf Level 2.
-- **10 minutes (Professor / Research Scientist / deeply interested recruiter):** All five destinations, at least one object per destination reached to Level 3–4, ending at the Window.
+- **5 minutes (typical persona):** Desk → one project to Level 3 → Leadership Wall Level 2 → Bookshelf/Knowledge Level 2.
+- **10 minutes (Professor / Research Scientist / deeply interested recruiter):** All six destinations, at least one object per destination reached to Level 3–4, including the Research Journal's current-status detail, ending at the Window.
 
 ---
 

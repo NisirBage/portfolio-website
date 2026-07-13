@@ -13,7 +13,7 @@ Two corrections came out of this verification pass, both now reflected in [EXPER
 | Asset Name | Category | States | Current Usage | Interaction | Narrative Role | Status |
 |---|---|---|---|---|---|---|
 | Wood desk | Furniture — surface | 1 (single sprite, no alt state in this sheet) | The Desk (hub) | Primary hotspot | Execution | **VERIFIED** |
-| Oak bookshelf (open-shelf, visible books) | Furniture — storage | 1 | Bookshelf hotspot | Primary hotspot | Knowledge / Research | **VERIFIED** |
+| Oak bookshelf (open-shelf, visible books) | Furniture — storage | 1 | Bookshelf hotspot | Primary hotspot | Knowledge (*revised, Milestone 7 — no longer also Research; see `NARRATIVE_SYSTEM.md`*) | **VERIFIED** |
 | Walnut bookshelf (with drawers, darker wood) | Furniture — storage | 1 | Not currently assigned — see Notes | Decorative or future differentiation | — | **VERIFIED**, unused |
 | Grandfather clock | Furniture — decor | 1 | Clock hotspot | Primary hotspot | Growth over time | **VERIFIED** |
 | Wood stove (black cast iron, with flue pipe) | Furniture — decor | 1 | Ambient dressing near Coffee Corner, no hotspot | None (decorative-tier) | "Lived-in" signal | **VERIFIED**, decorative only |
@@ -44,7 +44,7 @@ Same categories as State 1, alternate color palette (e.g., green sofas instead o
 | Folder stack (brown) | Small item | Not currently assigned — candidate for Resume dressing | Could sit near the Resume sub-interaction as a visual anchor for "the paper you can take" | Execution | **VERIFIED**, unused |
 | Small round wall clock | Small item | Not currently assigned (grandfather clock used instead) | — | — | **VERIFIED**, unused alternative to the primary Clock asset |
 | Potted plant, flower bouquet in vase (2 items) | Small item | Ambient decoration (per Content Hierarchy's Decorative tier) | Hover only, no click | Continuous learning | **VERIFIED** |
-| Books (open, closed) | Small item | Not currently assigned — candidate to replace the generic "book slides out" description in Interaction Specification's Bookshelf entry with a specific sprite | Could be the literal object that animates in the Bookshelf interaction | Knowledge | **VERIFIED**, recommend wiring into Bookshelf's animation in Phase 3 |
+| Books (open, closed) | Small item | Milestone 7: the literal object animating in both the Bookshelf (Knowledge) slide-open and, rendered as a distinct smaller instance, the Research Journal's page-turn — one VERIFIED sprite, two separate hotspots, no new asset needed (*revised, Milestone 7*) | Primary interaction visual for both hotspots | Knowledge / Research | **VERIFIED**, now wired into both |
 | Food/kitchen items (plates, pots, bottles, jars, wine glasses) | Small item | Not currently assigned | None planned | None — no narrative fit found | **VERIFIED**, confirmed **Do Not Use** |
 | Misc (rubber duck, key rack, hanger, fishbowl, lamp) | Small item | Not currently assigned | None planned | None — no narrative fit found | **VERIFIED**, confirmed **Do Not Use** |
 

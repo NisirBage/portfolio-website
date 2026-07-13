@@ -27,7 +27,7 @@ Two features exist in the asset that earlier documents hadn't accounted for and 
 
 ### Option A — Priority-Anchored (recommended)
 
-Desk in Zone 2, Leadership Wall in Zone 1, Research (Bookshelf) in Zone 3, Coffee Corner in Zone 4. Clock placed as a furniture item at the Zone 2/3 boundary — physically between Engineering and Research, standing between the two rather than belonging fully to either. Window mounted on the wall directly above/behind the Desk (Zone 2), reached by tilting the camera up, not panning sideways — it isn't a fifth lateral zone at all.
+Desk in Zone 2, Leadership Wall in Zone 1, Bookshelf/Knowledge and Research Journal both in Zone 3 (two distinct, spatially separated objects — *revised, Milestone 7*, see `NARRATIVE_SYSTEM.md`), Coffee Corner in Zone 4. Clock placed as a furniture item at the Zone 2/3 boundary — physically between Engineering and Zone 3's evidence cluster, standing between the two rather than belonging fully to either. Window mounted on the wall directly above/behind the Desk (Zone 2), reached by tilting the camera up, not panning sideways — it isn't a fifth lateral zone at all.
 
 - **Strengths.** Matches `CONTENT_HIERARCHY.md`'s proximity-priority logic (Desk near-center, evidence zones flanking it, Coffee peripheral). Preserves the rust=Engineering / tan=Research / sage=Leadership color logic Phase 1 already established, avoiding rework for no reason (Asset Evolution). The Window-above-Desk placement removes a zone-count problem entirely rather than fighting for a fifth lateral slot in a four-zone room.
 - **Weaknesses.** In raw left-to-right reading order, Leadership (Zone 1) is technically scanned before the Desk (Zone 2) — the Desk does not win on position alone. This has to be compensated for with visual weight (scale, lighting, contrast), which is `VISUAL_PRIORITY_MAP.md` and `COMPOSITION_STUDY.md`'s job, not a placement guarantee by itself. Flagged honestly below, not glossed over.
@@ -67,16 +67,17 @@ Every hotspot's click/tap target is generously sized beyond its visible sprite b
 
 ## Sight Lines
 
-From the Arrival establishing shot, foveal (central) vision lands on the Desk and its immediate surroundings — the largest, most-lit object in the frame by design (see Composition Study). Zone 1 (Leadership) and Zone 3 (Research) sit in near-peripheral vision, visible but not demanding attention — legible enough that a visitor knows they're there without needing to be told. Zone 4 (Coffee) sits at the edge of the frame, present but genuinely peripheral, consistent with its Optional/low-traffic status.
+From the Arrival establishing shot, foveal (central) vision lands on the Desk and its immediate surroundings — the largest, most-lit object in the frame by design (see Composition Study). Zone 1 (Leadership) and Zone 3 (Bookshelf/Knowledge and Research Journal) sit in near-peripheral vision, visible but not demanding attention — legible enough that a visitor knows they're there without needing to be told. Zone 4 (Coffee) sits at the edge of the frame, present but genuinely peripheral, consistent with its Optional/low-traffic status.
 
 ## Camera Anchor Points
 
-Six anchors, one per Focus state, each framed tight enough to exclude the neighboring zones from the shot (so attention genuinely narrows, not just zooms):
+Seven anchors, one per Focus state (*revised, Milestone 7 — Research Journal promoted from a Bookshelf sub-state to its own anchor*), each framed tight enough to exclude the neighboring zones from the shot (so attention genuinely narrows, not just zooms):
 - **Desk Focus** — centered on Zone 2's furniture cluster.
-- **Bookshelf Focus** — centered on Zone 3.
+- **Bookshelf Focus** — centered on its own position within Zone 3, tight enough to exclude the Research Journal from frame.
+- **Research Journal Focus** — centered on its own, spatially distinct position within Zone 3, tight enough to exclude the Bookshelf from frame — the two are peer anchors sharing a zone, not one anchor with two states.
 - **Leadership Focus** — centered on Zone 1's frame wall.
 - **Coffee Focus** — centered on Zone 4.
-- **Clock Focus** — centered on the Zone 2/3 boundary, tight enough that neither the Desk nor the Bookshelf competes for attention in frame.
+- **Clock Focus** — centered on the Zone 2/3 boundary, tight enough that neither the Desk nor Zone 3's objects compete for attention in frame.
 - **Window Focus** — an upward tilt from the Desk anchor, not a lateral move to a new x-position.
 
 ## Attention Corridors

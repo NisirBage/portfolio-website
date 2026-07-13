@@ -11,7 +11,7 @@
 - Desk Focus, fully wired: Projects Layer (accordion, Low-Fi Option C), all three flagship projects to Level 4, Blueprint unroll
 - Resume and Contact persistent affordances
 - Leadership Focus at the **simplified grid fallback**, not the fan-out (see Feature Removal Review) — the cluster content and quantified headlines are Must Have; the fan-out animation specifically is not
-- Bookshelf/Research Focus to Level 2 (advisor, domain, direction)
+- Bookshelf (Knowledge) Focus to Level 2, and Research Journal Focus with its full current-status detail (*revised, Milestone 7: these are two peer objects, not one — see `NARRATIVE_SYSTEM.md`. The Research Journal's status content is inherently a single unit, so it ships complete rather than split across a Level 2/3 boundary.*)
 - Screen-reader parallel linear document, content-complete
 - Mobile: the plain-list fallback (no spatial metaphor attempted)
 - A subtle first-paint idle animation on the Desk, addressing `DESIGN_DEBT.md` Finding #2 (discovery-mechanism risk) — new to this document, not present in earlier drafts
@@ -21,7 +21,6 @@
 
 - Leadership fan-out arc animation (upgrade from the grid fallback)
 - Blueprint unroll's diagonal-specific animation (vs. a plain reveal, if time is tight)
-- Research Journal at Level 3
 - Environmental storytelling (visited-glow, Narrative States lighting)
 - Deep-linking to a specific Layer state, newly identified in `IMPLEMENTATION_RISKS.md`
 

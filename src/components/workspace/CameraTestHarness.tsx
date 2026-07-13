@@ -6,11 +6,13 @@ import { DURATION } from "@/lib/motion";
 /**
  * TEMPORARY Milestone 3 verification scaffolding for the zones that
  * still have no real content. "desk" was removed here in Milestone 5
- * once `DeskHotspot` replaced it with a real, content-backed hotspot —
+ * once `DeskHotspot` replaced it with a real, content-backed hotspot;
+ * "research" was removed in Milestone 7 once `KnowledgeHotspot` and
+ * `ResearchHotspot` replaced it with two real, content-backed hotspots —
  * Design For Deletion in practice: this harness shrinks as real
  * hotspots replace its stand-ins, rather than the two coexisting
- * indefinitely. The remaining five will be removed the same way as
- * Milestones 7+ build their real content.
+ * indefinitely. The remaining three will be removed the same way as
+ * later milestones build their real content.
  *
  * Coordinates are approximate zone-center points derived from
  * roomGeometry.ts's measured zone bounds — reasonable for testing the
@@ -19,7 +21,6 @@ import { DURATION } from "@/lib/motion";
 const TEST_TARGETS: Record<string, CameraTarget> = {
   leadership: { x: 16.5, y: 50, scale: 2.2 },
   clock: { x: 49.8, y: 50, scale: 2.5 },
-  research: { x: 60.9, y: 50, scale: 2.2 },
   coffee: { x: 83.9, y: 50, scale: 2.2 },
   window: { x: 38.7, y: 15, scale: 2.5 },
 };

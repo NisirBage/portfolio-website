@@ -177,3 +177,25 @@ Per `INTERACTION_SPECIFICATION.md`, "See the architecture" is its own click, dis
 ### Verification
 
 Tested through the real click flow on a production build (not manual DOM patching): all three projects expand and collapse correctly; the accordion is mutually exclusive (opening a second project closes the first — confirmed via `aria-expanded` on both, not assumed from one); the Neonatal project's Blueprint reveal shows all four architecture points and links to the real, verified repository URL; the Milestone 5 paint-bug fix (`setTimeout`) still holds under the same `document.hidden` condition, confirming Milestone 5's fix generalizes to real content, not just the one interaction it was verified against.
+
+## Milestone 7
+
+### Splitting one hotspot into two, not adding a sub-panel
+
+`NARRATIVE_SYSTEM.md`'s World Rules previously had the Bookshelf stand for both "Knowledge" and "Research," with a Research Journal reachable as a Level 3 sub-interaction inside it. This was a user-directed architectural revision, not a bug fix: Knowledge (where his thinking comes from) and Research (how he contributes new thinking) are different claims requiring different kinds of evidence, and `EVIDENCE_SURFACES_REVIEW.md`'s content review confirmed this concretely — the Research content earned a High confidence rating (primary, current-status, self-reported) while the Knowledge content only reached Medium (domain-level, cross-referenced, no named sources yet). Collapsing them into one panel would have forced the weaker evidence to set the ceiling for both. `KnowledgeHotspot` and `ResearchHotspot` are two independent, identically-structured components (mirroring `DeskHotspot`), not a shared component with a mode flag — each has its own `aria-label`, its own geometry constant, and its own panel, since nothing about them varies parametrically enough to justify a shared abstraction yet.
+
+### Hotspot geometry: reasonable-effort placement, not new pixel measurement
+
+`KNOWLEDGE_HOTSPOT` and `RESEARCH_HOTSPOT` in `roomGeometry.ts` are placed within the already-measured `ZONE_BOUNDS_X.research` range, at two distinct x-positions, rather than being independently pixel-verified against specific furniture sprite sub-positions. This follows the same honesty pattern `DESK_HOTSPOT` already established: real, measured zone bounds, reasonable-effort placement within them, explicitly not claimed as sub-pixel-verified. No new pixel inspection was performed this milestone.
+
+### Asset reuse: no new sprite for the Research Journal
+
+The Research Journal's visual is the same VERIFIED book sprite category in `SmallItems.png` already used for the Bookshelf's animation, rendered as a distinct, smaller hotspot rather than sourcing a dedicated "notebook" asset that isn't confirmed to exist. `ASSET_REGISTRY.md` updated to reflect this dual usage of one verified asset rather than implying two separate sprites.
+
+### Verification
+
+Confirmed via the production build and a real click-through in the browser preview (not just a code read): both new hotspots render with correct `aria-label`s (`"Open the Bookshelf — knowledge"`, `"Open the Research Journal"`), are spatially distinct in the establishing shot (visually confirmed via screenshot — two separate bordered regions within Zone 3, not one), open their own panel with the correct content, and move focus to `#layer-panel-heading` on open (`document.activeElement.id === "layer-panel-heading"`, same check used in Milestones 4-5). The Research Journal's "● Active" status was confirmed to render its text label independently of the dot, per `ASSUMPTIONS.md` A9. `lint`, `tsc --noEmit`, and `next build` all pass clean. `research` removed from `CameraTestHarness.tsx`'s `TEST_TARGETS` (Design For Deletion) now that both real hotspots exist.
+
+### A testing-environment note, not a project bug
+
+While starting the dev server for this milestone's verification, a manually-run `npm run dev -- --port 3100` reported `Another next dev server is already running` (PID on port 3000) — a leftover dev server from earlier in the session, not a code issue. Verification proceeded against the already-running instance on port 3000 instead. Logged here only because it's the kind of environment-state confusion `ASSUMPTIONS.md`/Test Environment Matrix discipline exists to catch and attribute correctly, not because it reflects anything about the shipped code.

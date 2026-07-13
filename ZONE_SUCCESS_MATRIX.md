@@ -17,16 +17,31 @@
 
 ---
 
-## Research (Bookshelf)
+## Bookshelf (Knowledge)
+
+*Revised, Milestone 7 — split from the former "Research (Bookshelf)" zone; see `NARRATIVE_SYSTEM.md`.*
+
+- **Primary goal.** Answer "does this person learn continuously and intentionally, beyond what a course requires?"
+- **Secondary goal.** Signal that the technical work (Desk) rests on real intellectual foundations, not just applied skill.
+- **Target recruiter.** Professor, Research Scientist, ML Recruiter.
+- **Expected time spent.** 20–30 seconds (Level 1–2) — this zone is meant to be quickly legible, not a deep read.
+- **Critical interaction.** Opening the book at Level 2 and recognizing a real, specific influence rather than a generic "lifelong learner" claim.
+- **Desired takeaway.** "He learns continuously and intentionally." (Section Memory Test.)
+- **Potential improvements.** A reading-list or reflections layer, if that content becomes real — logged in `MISSING_CONTENT.md`, not built speculatively.
+- **Risk of information overload.** Low — deliberately small, single-panel content.
+
+## Research Journal (Research)
+
+*Promoted from a Bookshelf sub-interaction to its own peer zone, Milestone 7.*
 
 - **Primary goal.** Answer "can this person conduct real research, independently?"
-- **Secondary goal.** Signal that the technical work (Desk) isn't purely applied — there's a research instinct underneath it.
+- **Secondary goal.** Signal that the technical work (Desk) isn't purely applied — there's a research instinct underneath it, and it's active right now, not archived.
 - **Target recruiter.** Professor, Research Scientist.
-- **Expected time spent.** 30 seconds (Level 1–2) to 2 minutes for a genuinely interested Research Scientist reaching the Research Journal.
-- **Critical interaction.** Reading the current research summary (advisor, domain, direction) at Level 2 — this alone should be enough to justify a real conversation for the right persona.
-- **Desired takeaway.** "Worth a real conversation about the work."
-- **Potential improvements.** V6's publication explorer will meaningfully strengthen this zone once there's published work to show — currently the zone's evidence is real but thin (one active research relationship), which is honestly represented rather than padded.
-- **Risk of information overload.** Low — this zone naturally has the least content of the five, and Content Hierarchy already keeps the Research Journal at Optional tier so it never competes with the Level 2 summary for attention.
+- **Expected time spent.** 30 seconds (Level 1–2) to 2 minutes for a genuinely interested Research Scientist reading the full current-status detail.
+- **Critical interaction.** Reading the current research status (question, stage, progress, unknowns) — this alone should be enough to justify a real conversation for the right persona.
+- **Desired takeaway.** "He understands how to formulate and investigate research questions." (Section Memory Test.)
+- **Potential improvements.** Published results or external validation, once real — logged in `MISSING_CONTENT.md`, not fabricated now.
+- **Risk of information overload.** Low — this zone has the least content of any evidence surface, and Content Hierarchy keeps it at Optional tier so it never competes with the Desk's Level 2 summary for attention.
 
 ---
 

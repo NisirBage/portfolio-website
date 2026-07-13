@@ -44,3 +44,14 @@ Same honest assessment as the Safety Platform: real Level 1 and Level 2 content,
 ## What This Confirms
 
 Evidence Parity predicted exactly this outcome before it was measured: the one project with real independent documentation reached M3; the two with resume-only evidence plateau at M1 until more real material exists. That's the system working as intended, not a gap to close by writing more confident-sounding prose.
+
+---
+
+## Knowledge and Research (Milestone 7)
+
+The M0–M5 scale above is defined for *project* evidence (architecture, repository, benchmarks, reflection) and doesn't map cleanly onto the Bookshelf or Research Journal — forcing a project-shaped label onto a different kind of content would itself be a small dishonesty. `EVIDENCE_SURFACES_REVIEW.md`'s Confidence Level field does the same honesty job for these two surfaces instead:
+
+- **Bookshelf (Knowledge) — Medium confidence.** Domain-level, cross-referenced to real project/research evidence elsewhere in the site, but not yet backed by specific named sources (books, papers, courses). Path to High: specific named influences, logged as a gap in `MISSING_CONTENT.md`, not fabricated here.
+- **Research Journal (Research) — High confidence.** Primary, first-person, current-status content — a real active question, real progress, and real stated unknowns. This is the strongest evidence type this document's scale distinguishes (comparable in kind, though not in form, to what earns a project M3+), specifically because it doesn't hide what's still unresolved.
+
+Same rule as the project scale above: neither rating moves up until new real evidence exists, not when the presentation is polished.

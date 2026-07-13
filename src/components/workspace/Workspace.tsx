@@ -2,7 +2,13 @@
 
 import Image from "next/image";
 import { ASSETS } from "@/lib/assets";
-import { ROOM_CANVAS, DESK_HOTSPOT, getDoorPlacements } from "@/lib/roomGeometry";
+import {
+  ROOM_CANVAS,
+  DESK_HOTSPOT,
+  KNOWLEDGE_HOTSPOT,
+  RESEARCH_HOTSPOT,
+  getDoorPlacements,
+} from "@/lib/roomGeometry";
 import { useCamera } from "@/hooks/useCamera";
 import { useLayerStack } from "@/hooks/useLayerStack";
 import { DURATION } from "@/lib/motion";
@@ -12,6 +18,10 @@ import { CameraTestHarness } from "./CameraTestHarness";
 import { LayerPanel } from "./LayerPanel";
 import { DeskHotspot } from "./DeskHotspot";
 import { DeskPanel } from "./DeskPanel";
+import { KnowledgeHotspot } from "./KnowledgeHotspot";
+import { KnowledgePanel } from "./KnowledgePanel";
+import { ResearchHotspot } from "./ResearchHotspot";
+import { ResearchPanel } from "./ResearchPanel";
 
 /**
  * The establishing shot plus the camera (Milestone 3), layer (Milestone
@@ -37,6 +47,30 @@ export function Workspace() {
       DURATION.standard,
     );
     layers.open("desk");
+  }
+
+  function openKnowledge() {
+    camera.focus(
+      {
+        x: KNOWLEDGE_HOTSPOT.centerXPercent,
+        y: KNOWLEDGE_HOTSPOT.centerYPercent,
+        scale: KNOWLEDGE_HOTSPOT.cameraScale,
+      },
+      DURATION.standard,
+    );
+    layers.open("knowledge");
+  }
+
+  function openResearch() {
+    camera.focus(
+      {
+        x: RESEARCH_HOTSPOT.centerXPercent,
+        y: RESEARCH_HOTSPOT.centerYPercent,
+        scale: RESEARCH_HOTSPOT.cameraScale,
+      },
+      DURATION.standard,
+    );
+    layers.open("research");
   }
 
   function closeLayer() {
@@ -98,6 +132,12 @@ export function Workspace() {
 
           {/* Layer 3: the Desk hotspot — real content, Milestone 5. */}
           <DeskHotspot onOpen={openDesk} />
+
+          {/* Layer 4: Bookshelf (Knowledge) and Research Journal — Milestone
+              7's peer evidence surfaces, per the Knowledge ≠ Research split
+              in NARRATIVE_SYSTEM.md. */}
+          <KnowledgeHotspot onOpen={openKnowledge} />
+          <ResearchHotspot onOpen={openResearch} />
         </CameraContainer>
 
         <CameraTestHarness onFocus={camera.focus} onReset={camera.reset} />
@@ -105,6 +145,14 @@ export function Workspace() {
 
       <LayerPanel isOpen={layers.activeLayer === "desk"} title="Desk" onClose={closeLayer}>
         <DeskPanel />
+      </LayerPanel>
+
+      <LayerPanel isOpen={layers.activeLayer === "knowledge"} title="Knowledge" onClose={closeLayer}>
+        <KnowledgePanel />
+      </LayerPanel>
+
+      <LayerPanel isOpen={layers.activeLayer === "research"} title="Research" onClose={closeLayer}>
+        <ResearchPanel />
       </LayerPanel>
     </div>
   );

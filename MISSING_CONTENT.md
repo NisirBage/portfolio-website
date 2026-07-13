@@ -41,3 +41,11 @@
 - **Priority.** Low — this project's Level 3 content is otherwise the richest and most evidenced of the three; this is a polish gap, not a credibility gap.
 - **Current substitute.** None needed yet; Level 4 links to the real repository, which is sufficient evidence on its own.
 - **User action required.** No, not for Version 1.
+
+### Bookshelf (Knowledge) — specific named influences
+
+- **Content needed.** The specific books, papers, or courses that actually shaped his technical thinking, not just the domains he works in.
+- **Why it matters.** `EVIDENCE_SURFACES_REVIEW.md`'s Milestone 7 review rates this surface's confidence as Medium rather than High for exactly this reason: the current content is domain-level (explainable AI, deep learning on molecular data, systems design, applied NLP), each backed by a real project or research relationship elsewhere in the site, but it stops short of naming a single source — which is what would make "he learns continuously and intentionally" concrete rather than inferred.
+- **Priority.** Low-Medium — the domain-level version is honest and evidenced, not misleading; this is an upgrade opportunity, not a credibility gap.
+- **Current substitute.** A short list of study domains, each explicitly cross-referenced to the real project or research artifact that evidences it.
+- **User action required.** Optional — a short list (3–5 items) of specific named influences, if and when Nisir wants to provide them.

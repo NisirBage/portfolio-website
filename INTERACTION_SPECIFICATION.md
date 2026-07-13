@@ -1,6 +1,6 @@
 # Interaction Specification — The Studio
 
-**Status:** Draft for review. Every object below satisfies the Object Story Rules and Narrative Consistency Check in [NARRATIVE_SYSTEM.md](NARRATIVE_SYSTEM.md). The scene has **six world-visible hotspots** (Desk, Bookshelf, Clock, Leadership Frames, Coffee Mug, Window) plus **three sub-interactions** that live inside a parent object's Level 2–3 panel rather than as separate pixel props (Blueprint and Resume within the Desk; Research Journal within the Bookshelf) — this reconciles every object you named in your brief without inflating the physical scene. See Narrative System's "Reconciliation with your object list" for why Computer/Terminal/Blueprint/Whiteboard aren't separate sprites, and Content Hierarchy for how the Timeline is folded into the Clock rather than duplicated.
+**Status:** Draft for review. Every object below satisfies the Object Story Rules and Narrative Consistency Check in [NARRATIVE_SYSTEM.md](NARRATIVE_SYSTEM.md). The scene has **seven world-visible hotspots** (Desk, Bookshelf/Knowledge, Research Journal, Clock, Leadership Frames, Coffee Mug, Window) plus **two sub-interactions** that live inside a parent object's Level 2–3 panel rather than as separate pixel props (Blueprint and Resume within the Desk). *Revised Milestone 7:* Research Journal was originally a Bookshelf sub-interaction; it's now a peer hotspot in its own right, per Knowledge ≠ Research — see Narrative System's World Rules. See Narrative System's "Reconciliation with your object list" for why Computer/Terminal/Blueprint/Whiteboard aren't separate sprites, and Content Hierarchy for how the Timeline is folded into the Clock rather than duplicated.
 
 Every object's animation is unique — no two use the same motion vocabulary, per your explicit instruction to avoid repeating popup behaviour.
 
@@ -46,32 +46,47 @@ Every object's animation is unique — no two use the same motion vocabulary, pe
 
 ---
 
-## Bookshelf
+## Bookshelf (Knowledge)
+
+*Revised Milestone 7 — this object no longer represents Research; see the Research Journal entry below for that.*
 
 **Asset status.** VERIFIED — oak bookshelf sprite confirmed in `TopDownHouse_FurnitureState1.png`. The "single book slides out and opens flat" animation described below is a code-driven transform of the VERIFIED open/closed book sprites in `SmallItems.png`, not a new asset.
-**Purpose.** Research and knowledge depth — proof of independent inquiry, not coursework.
-**Associated skill.** Research aptitude, independent learning.
-**Primary audience.** Professor, Research Scientist.
-**Secondary audience.** ML Recruiter (the Kamilya lab work is directly relevant to ML hiring too).
+**Purpose.** Intellectual foundations — what shapes his thinking, independent of what he's actively producing. Continuous, intentional learning.
+**Associated skill.** Continuous learning, breadth of interest, the foundations that inform engineering judgment.
+**Primary audience.** Professor, Research Scientist, ML Recruiter.
+**Secondary audience.** Anyone curious what informs his thinking beyond coursework.
 **Interaction trigger.** Click/tap the shelf.
 **Animation.** A single book slides partway out and opens flat, its pages becoming the panel's content surface — the shelf itself never fully "opens," only the one book responds, which reads as a considered choice rather than a UI gimmick.
 **Transition.** Zoom-in on the shelf (500ms) → the book-opening animation plays in place, panel content fades in as the pages settle.
 **Exit behaviour.** Book closes and slides back; camera returns to Idle.
-**Accessibility.** Panel heading `<h2>Research</h2>`; content includes advisor name, domain, and current direction as real text, not baked into an image.
+**Accessibility.** Panel heading `<h2>Knowledge</h2>`; content is real text, not baked into an image.
 **Keyboard support.** `Enter`/`Space` opens; standard panel `Tab`/`Esc` behaviour.
 **Touch behaviour.** Single tap.
 **Audio.** Opt-in only: a soft page-riffle sound on open, once.
-**Narrative role.** Curiosity → Research in the central metaphor.
-**Success metric.** % of sessions reaching Level 2 here; average time spent (a genuinely interested Research Scientist persona should linger longer here than the median visitor).
-**Future expansion.** V6's publication explorer (Strategy doc roadmap) becomes a second "book" on the same shelf once there's published work — not a new object.
+**Narrative role.** Curiosity → Knowledge — where his thinking comes from, distinct from the Research object's how he contributes new thinking.
+**Success metric.** % of sessions reaching Level 2 here; average time spent.
+**Future expansion.** A reading list or reflections layer, if that content becomes available — logged as a candidate in `MISSING_CONTENT.md`, not built speculatively now.
 
-### Sub-interaction: Research Journal (Bookshelf, Level 3)
-**Asset status.** N/A — panel content, not a pixel-world sprite.
-**Purpose.** Show the research as active and current, not archived.
-**Trigger.** "Read the journal" link inside the Bookshelf's Level 2 panel.
-**Animation.** Page-turn, distinct from the book-opening animation that got the visitor here — the journal is a different physical object (a notebook, not a bound book) and reads that way.
-**Narrative role.** The most granular Research → Systems evidence: specific current questions, not just the advisor/domain summary.
-**Success metric.** Depth-reach rate within the Research branch.
+## Research Journal (Research)
+
+*Promoted from a Bookshelf sub-interaction to its own peer hotspot, Milestone 7 — Knowledge ≠ Research (Narrative System's World Rules). Physically placed in the Research zone alongside the Bookshelf, not on the Desk — the original placement note never actually matched the zone this content lives in, corrected here rather than carried forward.*
+
+**Asset status.** VERIFIED — uses the open/closed book sprite in `SmallItems.png` (the same verified sprite category as the Bookshelf's own animation, applied to a distinct, smaller object — a notebook, not the bound-book shelf), positioned as its own hotspot within the Research zone bounds.
+**Purpose.** Show research as active and current — an open notebook, not an archived publication. This is the "how he contributes new thinking" half of Knowledge ≠ Research.
+**Associated skill.** Research thinking — formulating and investigating a real question, not just consuming others' work.
+**Primary audience.** Research Scientist, Professor.
+**Secondary audience.** ML Recruiter — this is where the Kamilya lab work's actual current status lives.
+**Interaction trigger.** Click/tap the notebook.
+**Animation.** Page-turn — distinct from the Bookshelf's book-slide-and-open, since this is a different physical object read differently (an open notebook you page through, not a shelved book you pull out).
+**Transition.** Zoom-in on the notebook (500ms) → page-turn reveal, panel content fades in as the page settles.
+**Exit behaviour.** Notebook closes; camera returns to Idle.
+**Accessibility.** Panel heading `<h2>Research</h2>`; status, current question, stage, progress, and unknowns are all real text with real semantic structure (a status indicator is never conveyed by color alone).
+**Keyboard support.** `Enter`/`Space` opens; standard panel `Tab`/`Esc` behaviour.
+**Touch behaviour.** Single tap.
+**Audio.** Opt-in only: a soft page-turn sound on open, once.
+**Narrative role.** Curiosity → Research in the central metaphor — the most granular, most current evidence in the whole scene, since it's the one object whose content is expected to change as the actual research progresses.
+**Success metric.** Depth-reach rate; this is also the one object where a *return visit* showing updated status would itself be a meaningful signal, worth instrumenting for later even though nothing acts on it yet.
+**Future expansion.** Published results, external validation — logged in `MISSING_CONTENT.md`, not fabricated now. The status format itself (Current Question / Stage / Progress / Unknowns / Pending Decisions) is built to be genuinely re-editable as the real research moves, not a one-time snapshot.
 
 ---
 

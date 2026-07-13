@@ -22,6 +22,8 @@
 | **Accordion state — `aria-expanded`** | ✅ Verified (Milestone 6) | Each project's expand button carries a real `aria-expanded` attribute, confirmed `true`/`false` correctly via mouse-driven testing on a production build across all three projects, including mutual-exclusivity (opening one collapses another). |
 | **Outbound links — `rel="noreferrer"`** | ✅ Verified (Milestone 6) | Every Level 4 outbound link (`target="_blank"`) carries `rel="noreferrer"`, preventing the opened page from accessing `window.opener` — a real security/privacy default, not just an accessibility one. |
 | **Progressive disclosure — no forced depth** | ✅ Verified (Milestone 6) | A visitor can read a project's Level 2 summary without the Level 3 architecture list ever entering the DOM's visible content — "See the architecture" is a real second click, not auto-revealed, confirmed by inspecting the panel's content before and after that click. |
+| **Status conveyed by more than color (Milestone 7)** | ✅ Verified | The Research Journal's "● Active" status uses an `aria-hidden` dot plus a real text label — confirmed the text renders independently of the dot's color, so a screen reader or a color-blind visitor gets the same information a sighted visitor does. |
+| **Two new hotspots reachable and labeled (Milestone 7)** | ✅ Verified | `KnowledgeHotspot` ("Open the Bookshelf — knowledge") and `ResearchHotspot` ("Open the Research Journal") both confirmed present with real `aria-label`s via the accessibility tree, both open their respective panel and move focus to the panel heading, same pattern as the Desk hotspot. |
 
 ## What "progressively more complete" means going forward
 

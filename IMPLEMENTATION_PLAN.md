@@ -66,15 +66,17 @@ Scope per milestone is drawn directly from `VERSION1_SCOPE.md`'s Must Have list.
 - **Performance checks.** Blueprint diagrams (likely the heaviest images in this milestone) lazy-load, not bundled into initial page weight.
 - **Regression risks.** Low, contained to this Layer.
 
-## Milestone 7 — Research / Bookshelf Focus
+## Milestone 7 — Knowledge and Research Focus
 
-**Produces.** Real advisor/domain/direction content at Level 2.
-- **Acceptance criteria.** Matches `INTERACTION_SPECIFICATION.md`'s Bookshelf entry; content is honestly scoped to what's real today (no fabricated Level 4 source link, per `INFORMATION_BLUEPRINT.md`'s existing honesty note).
-- **Manual tests.** Content review against the actual resume/research facts, not just against the design docs.
-- **Edge cases.** None significant — this is a low-complexity milestone by design.
-- **Accessibility checks.** Standard panel checks, same pattern as Milestone 6.
+*Revised, Milestone 7: this milestone was originally scoped as a single "Research / Bookshelf Focus" producing Level 2 advisor/domain/direction content. Per the Knowledge ≠ Research architectural split (`NARRATIVE_SYSTEM.md`), it now produces two peer evidence surfaces instead. `VERSION1_SCOPE.md`'s "Research Journal at Level 3" Should-Have is folded into this milestone's Must-Have scope rather than deferred, since the real research content the user provided is inherently a "current status" artifact, not a Level 2 summary that could be shipped separately from its detail.*
+
+**Produces.** Real, honestly-scoped content for two objects: the Bookshelf (Knowledge — foundational learning, real influences) and the Research Journal (Research — a live "alive" status: Current Question, Current Stage, Latest Progress, Next Milestone, Unknowns, Pending Decisions).
+- **Acceptance criteria.** Matches `INTERACTION_SPECIFICATION.md`'s Bookshelf (Knowledge) and Research Journal entries; both pass the Evidence Surfaces review before implementation; content is honestly scoped to what's real today (no fabricated Level 4 source link, per `INFORMATION_BLUEPRINT.md`'s existing honesty note).
+- **Manual tests.** Content review against the actual real-world facts for each surface, not just against the design docs; confirm the two hotspots are spatially distinct and independently reachable.
+- **Edge cases.** None significant — still a low-complexity milestone by design, now with two small surfaces instead of one.
+- **Accessibility checks.** Standard panel checks, same pattern as Milestone 6, doubled across two panels.
 - **Performance checks.** None beyond baseline.
-- **Regression risks.** Low.
+- **Regression risks.** Low, though `CameraTestHarness.tsx`'s stale "research" test target needs deletion (Design For Deletion) now that a real hotspot replaces it.
 
 ## Milestone 8 — Leadership Focus (grid fallback)
 

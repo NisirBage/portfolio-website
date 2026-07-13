@@ -28,6 +28,15 @@
 
 A 4KB bundle growth for three full project write-ups plus their accordion/reveal logic is not worth optimizing against any budget. Interaction latency, render counts, and memory growth remain **Unknown** — unchanged from Milestone 5, still waiting on real profiling tooling.
 
+## Milestone 7 update
+
+| Metric | Value | How measured | Confidence |
+|---|---|---|---|
+| Total static build output | ~697 KB (+4 KB from Milestone 6) | `du -sh .next/static/chunks` after a production build | **Medium**, same caveat as Milestone 5 |
+| New content added | 2 new hotspots + panels (Knowledge, Research), ~1 KB of text total | Direct measure of `content/knowledge.ts` + `content/research.ts` | **Very High** |
+
+Same conclusion as Milestone 6: a few KB of growth for two full evidence surfaces isn't worth optimizing against any budget. No new asset weight — both hotspots reuse the existing verified `SmallItems.png` sprite category rather than introducing new images.
+
 ## What this milestone did *not* need to optimize
 
 Per "avoid premature optimization, but never ignore measurable regressions": nothing above crossed a threshold worth acting on. The full static bundle is well under any reasonable budget for a portfolio site; the pixel-art assets are already tiny (confirmed, not assumed, back in `ASSET_REGISTRY.md`); the resume is fetched on demand only, verified via `Content-Length` matching the source file exactly.

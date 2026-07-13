@@ -51,9 +51,9 @@ Every object symbolizes one thing. If an object can't answer the five Object Sto
 | Object | Symbol | Why here, not elsewhere |
 |---|---|---|
 | The Desk | Execution | It's the hub because everything Nisir does starts as work on a surface in front of him — not because "desk" is the default game-portfolio prop |
-| Bookshelf | Knowledge / Research | Physically nearest the Desk on the side that holds the fewest, densest evidence items (research is depth, not breadth) |
+| Bookshelf | **Knowledge** | *Revised, Milestone 7.* Bookshelf no longer stands for "Research" — it's the intellectual foundation, what shapes his thinking, independent of what he's actively producing. Physically nearest the Desk on the side that holds the fewest, densest evidence items. |
 | Blueprint (desk reveal, not a separate object) | Architecture / systems thinking | See the reconciliation note below — this is a *state* of the Desk, not a new sprite |
-| Notebook / Research Journal | Active inquiry | Sits open on the Desk, not shelved — signals the research is current, not archived |
+| Notebook / Research Journal | **Research — active inquiry** | *Revised, Milestone 7.* Promoted from a Bookshelf sub-state to its own peer hotspot, physically distinct from the Bookshelf (both live in the Research zone, not on the Desk — the original "sits open on the Desk" placement never matched where the Research zone actually is; corrected here rather than carried forward). Knowledge explains where his thinking comes from; Research demonstrates how he contributes new thinking — two different claims, two different objects. |
 | Clock | Growth over time | One object, one job: the only place a timeline lives. Doesn't get duplicated by a separate "Timeline" hotspot — see Interaction Specification |
 | Kitchen counter (Coffee Corner) | Curiosity / the person underneath the work | The one zone allowed to be informal — it's physically the furthest from the Desk, which is itself a signal (approachable, but not the headline) |
 | Window | Vision | The only object not on the same wall plane as everything else — it's above and beyond, reached by tilting the camera up, not panning sideways |
@@ -65,7 +65,7 @@ Every object symbolizes one thing. If an object can't answer the five Object Sto
 - **Blueprint** — not a separate prop. It's the Level-3 depth state of an Engineering-wall project: architecture diagrams render inside the modern panel, framed like an unrolled drawing.
 - **Whiteboard** — repurposed as one specific picture frame on the Leadership Wall, styled in the modern panel (not the pixel world) as a hand-sketched case-competition framework rather than a certificate scan. Same physical object type (frame), different content — this is intentional reuse, not a missing asset.
 
-This keeps the physical object count small (a studio with six interactive props reads as intentional; one with fourteen reads as cluttered) while still hitting every concept you wanted represented.
+This keeps the physical object count small (a studio with seven interactive props reads as intentional; one with fourteen reads as cluttered) while still hitting every concept you wanted represented. *(Revised Milestone 7: six became seven when Research was promoted from a Bookshelf sub-state to its own peer object — still small, still deliberate, not the same as letting the count grow unchecked.)*
 
 ---
 

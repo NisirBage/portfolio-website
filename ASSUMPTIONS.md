@@ -64,11 +64,20 @@
 - **Validation plan.** Re-test on Firefox and Safari before Version 1 ships; revisit if a future Chromium update changes behavior.
 - **Status.** Pending.
 
-### A8 — Real Desk-hotspot keyboard activation and Escape-to-close work correctly for real users
+### A8 — Real hotspot keyboard activation and Escape-to-close work correctly for real users
 
-- **Assumption.** A real keyboard user can reach and activate the Desk hotspot with Enter/Space, and close the resulting panel with Escape.
-- **Evidence.** Same reasoning as A1 — plain semantic elements, zero custom keyboard code for activation, so this should be native browser behavior. Escape is handled via a `keydown` listener in `LayerPanel.tsx` (real code, not native-only), which has never been exercised with a working synthetic or real Escape key press this session, since the tool's synthetic key events are confirmed malformed (`ENGINEERING_DECISIONS.md` Milestone 3).
+- **Assumption.** A real keyboard user can reach and activate a world hotspot with Enter/Space, and close the resulting panel with Escape.
+- **Evidence.** Same reasoning as A1 — plain semantic elements, zero custom keyboard code for activation, so this should be native browser behavior. Escape is handled via a `keydown` listener in `LayerPanel.tsx` (real code, not native-only), which has never been exercised with a working synthetic or real Escape key press this session, since the tool's synthetic key events are confirmed malformed (`ENGINEERING_DECISIONS.md` Milestone 3). **Scope widened, Milestone 7:** `KnowledgeHotspot` and `ResearchHotspot` are structurally identical `<button>` elements to `DeskHotspot` (no new keyboard code introduced), so this assumption now covers all three real hotspots, not just the Desk.
 - **Confidence.** Medium for Enter/Space activation (same reasoning as A1); Low for Escape specifically, since that path is custom code, not pure native behavior, and has literally never been observed to run.
 - **Risk.** Medium — if Escape doesn't work, it's a real, user-facing gap, not just an unverified formality.
 - **Validation plan.** Real-device test before Version 1 ships, same session as A1 and A6 ideally.
+- **Status.** Pending.
+
+### A9 — The Research Journal's status indicator reads correctly for a screen-reader user
+
+- **Assumption.** The "● Active" status is understood by assistive technology, not just by sighted users who can see the colored dot.
+- **Evidence.** **Verified structurally, not just visually:** the dot (`aria-hidden`) and the "Active" text label are both rendered, and the text label carries the actual information — a screen reader announces "Active" regardless of whether the dot renders or its color is distinguishable, satisfying `INTERACTION_SPECIFICATION.md`'s Research Journal accessibility requirement that status is "never conveyed by color alone." Not yet tested with a real screen reader, consistent with the broader Screen Reader gap already logged in `ACCESSIBILITY_CHECKLIST.md`.
+- **Confidence.** High for the markup being correct; unchanged Unknown for real screen-reader behavior (inherits the existing, already-logged gap rather than introducing a new one).
+- **Risk.** Low.
+- **Validation plan.** Folded into the existing Milestone 10 screen-reader audit already scoped in `IMPLEMENTATION_PLAN.md` — not a new validation task.
 - **Status.** Pending.

@@ -72,6 +72,33 @@ export const DESK_HOTSPOT = {
   cameraScale: 2.2,
 } as const;
 
+/**
+ * Knowledge (Bookshelf) and Research Journal hotspots — Milestone 7.
+ * Both sit within `ZONE_BOUNDS_X.research` ([144, 207]) but at distinct
+ * x-positions, since Milestone 7 splits what was one "Research" concept
+ * into two peer objects sharing a zone (see NARRATIVE_SYSTEM.md). Knowledge
+ * is placed nearer the Desk (left side of the zone), Research Journal
+ * further in — matching the zone's original "physically nearest the Desk"
+ * framing for the Bookshelf specifically, now that it's the Knowledge
+ * object rather than Research.
+ *
+ * Like DESK_HOTSPOT, these are reasonable-effort placements derived from
+ * the zone's measured x-range, not pixel-verified against a specific
+ * furniture sprite's exact sub-position — that precision isn't claimed
+ * here, consistent with the Asset Truthfulness Protocol.
+ */
+export const KNOWLEDGE_HOTSPOT = {
+  centerXPercent: 55.5,
+  centerYPercent: 50,
+  cameraScale: 2.4,
+} as const;
+
+export const RESEARCH_HOTSPOT = {
+  centerXPercent: 67,
+  centerYPercent: 50,
+  cameraScale: 2.4,
+} as const;
+
 /** left/top/width/height as percentages of the room canvas, ready for CSS. */
 export interface PercentRect {
   left: number;
