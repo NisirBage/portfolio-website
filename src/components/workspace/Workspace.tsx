@@ -1,27 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import { ASSETS } from "@/lib/assets";
 import { ROOM_CANVAS, getDoorPlacements } from "@/lib/roomGeometry";
+import { useCamera } from "@/hooks/useCamera";
 import { CameraContainer } from "./CameraContainer";
+import { CameraTestHarness } from "./CameraTestHarness";
 
 /**
- * The static establishing shot (SPATIAL_BLUEPRINT.md), Milestone 2 scope
- * only: room shell + door dressing, no hotspots, no lighting, no
- * animation. Layer order, bottom to top:
+ * The establishing shot plus the camera system (Milestone 3). Layer
+ * order, bottom to top, unchanged from Milestone 2:
  *   1. Room shell (floor/wall zones)
  *   2. Door dressing (Background tier, non-interactive)
- * Furniture, hotspots, and everything above this belongs to later
- * milestones per IMPLEMENTATION_PLAN.md.
+ * The camera itself knows nothing about either — it's a generic
+ * translate/scale system CameraTestHarness happens to be driving right
+ * now. Hotspots, layers, and content still belong to later milestones.
  */
 export function Workspace() {
   const doors = getDoorPlacements(ASSETS.doorClosed.width, ASSETS.doorClosed.height);
+  const camera = useCamera();
 
   return (
-    <div className="flex h-full w-full items-center justify-center bg-zinc-100 p-4 dark:bg-zinc-950">
+    <div className="flex h-full w-full items-center justify-center overflow-hidden bg-zinc-100 p-4 dark:bg-zinc-950">
       <div
-        className="relative w-full max-w-5xl"
+        className="relative w-full max-w-5xl overflow-hidden"
         style={{ aspectRatio: `${ROOM_CANVAS.width} / ${ROOM_CANVAS.height}` }}
       >
-        <CameraContainer>
+        <CameraContainer target={camera.target} durationMs={camera.durationMs}>
           {/* Layer 1: room shell. `unoptimized` — see ENGINEERING_DECISIONS.md
               on why Next's image optimizer isn't used for pixel-art sprites. */}
           <Image
@@ -65,6 +70,8 @@ export function Workspace() {
             }}
           />
         </CameraContainer>
+
+        <CameraTestHarness onFocus={camera.focus} onReset={camera.reset} />
       </div>
     </div>
   );

@@ -1,24 +1,36 @@
+"use client";
+
+import { CAMERA_EASING, CAMERA_IDENTITY, cameraTransform, type CameraTarget } from "@/hooks/useCamera";
+
 /**
- * The structural container Milestone 3 will animate with CSS
- * `translate`/`scale` transforms to pan and zoom toward each Focus
- * state's anchor point (EXPERIENCE_ARCHITECTURE.md's Camera Philosophy).
- *
- * Milestone 2 scope stops here deliberately: this component exists to
- * prove the layout supports that later behavior without needing to be
- * restructured for it, not to implement any movement. It renders with
- * an identity transform and no event handlers, per Milestone 2's
- * explicit exclusion of camera movement.
+ * Applies whatever transform/timing it's given via CSS `transition`,
+ * per EXPERIENCE_ARCHITECTURE.md's Camera Philosophy. Purely
+ * presentational — it takes a target and duration as props and knows
+ * nothing about what produced them, per Milestone 3's requirement that
+ * the camera stay content-agnostic. `motion-reduce:` collapses the
+ * transition to an instant cut; see globals.css for the underlying rule.
  */
 
 interface CameraContainerProps {
   children: React.ReactNode;
+  target?: CameraTarget;
+  durationMs?: number;
 }
 
-export function CameraContainer({ children }: CameraContainerProps) {
+export function CameraContainer({
+  children,
+  target = CAMERA_IDENTITY,
+  durationMs = 500,
+}: CameraContainerProps) {
   return (
     <div
-      className="absolute inset-0 origin-center"
-      style={{ transform: "translate(0px, 0px) scale(1)" }}
+      className="camera-transition absolute inset-0"
+      style={{
+        transform: cameraTransform(target),
+        transformOrigin: "0 0",
+        transitionDuration: `${durationMs}ms`,
+        transitionTimingFunction: CAMERA_EASING,
+      }}
     >
       {children}
     </div>

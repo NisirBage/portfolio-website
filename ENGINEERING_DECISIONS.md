@@ -39,3 +39,32 @@ It renders with an explicit identity transform (`translate(0px, 0px) scale(1)`) 
 ### Performance instrumentation: `useReportWebVitals`, console-only, dev-only
 
 Next.js ships a built-in Web Vitals hook; using it is near-zero marginal cost and gives a real, standard metric (LCP, CLS, INP) rather than a bespoke measurement. It logs to console only in development — no analytics backend exists yet, and building one isn't in Milestone 2's scope (or arguably any milestone's scope until `VERSION1_SCOPE.md` explicitly schedules `PORTFOLIO_STRATEGY.md`'s Section 12 metrics work).
+
+---
+
+## Milestone 3
+
+### Content-agnostic API: `focus(target, durationMs)` and nothing else
+
+`useCamera` exposes exactly two functions — `focus` and `reset` — operating on a `CameraTarget` of `{x, y, scale}`. No `CameraTarget` ever mentions a zone name, a project, or a layer. The six SPATIAL_BLUEPRINT.md anchor coordinates used to exercise the camera live in `CameraTestHarness.tsx`, a component the camera hook has no knowledge of and no import relationship with — the dependency points one way (harness → camera), never the other. This is the concrete test of Milestone 3's stated success criterion: a future hotspot component can call `focus()` with its own coordinates without the camera implementation changing at all.
+
+### Interrupting a transition: no queue, because CSS already does this
+
+`focus()` simply replaces the stored target — no cancellation flag, no promise queue, no "is animating" check. A CSS `transition` on `transform` interpolates from whatever value is *currently rendered* to a new target the instant the target changes, which is exactly the "cancel gracefully and redirect" behavior specified. This directly resolves `DESIGN_DEBT.md` Finding #4 (camera timing vs. the 90-second recruiter priority): a fast visitor clicking through several targets in succession never waits for one transition to finish before the next begins — each click immediately redirects the in-flight animation rather than queuing behind it.
+
+### Transform math: derivation, then empirical verification — not derivation alone
+
+To center canvas point `(x%, y%)` in the viewport at a given scale, with `transform-origin: 0 0`: `transform: scale(S) translate(tx%, ty%)` where `tx = 50/S − x` and `ty = 50/S − y` (percentages resolve against the element's own box regardless of the scale applied to the result). The derivation is easy to get subtly wrong, so per the new Evidence Before Summary rule this wasn't trusted on paper — it was measured: after focusing the "clock" test target, the actual on-screen position of that canvas point was computed from `getBoundingClientRect()` and compared to the stage's true center. **Verified**, not assumed: the measured offset was 0.00006px in x and exactly 0 in y — sub-pixel, i.e. correct.
+
+### Reduced motion: one CSS rule, not a JS branch
+
+`@media (prefers-reduced-motion: reduce) { .camera-transition { transition-duration: 0ms !important; } }`. No JavaScript reads `matchMedia` — the browser's own cascade handles it, which means it's correct even before React hydrates. Functionally verified by injecting an equivalent always-on override rule and confirming the target transform applied instantly with no interpolation, since this test environment has no way to toggle a real OS-level reduced-motion setting (see testing notes below).
+
+### Testing environment limitations discovered this milestone — recorded for future milestones' benefit
+
+Two genuine automation-tool quirks surfaced while verifying this milestone, both confirmed to be environment artifacts rather than code defects, and both worth knowing before debugging future milestones against the same tooling:
+
+1. **CSS transitions stall on a tab the browser considers hidden.** `document.visibilityState` reported `"hidden"` for the preview tab throughout testing (regardless of which tab was "fronted" in the tool), and Chromium throttles/pauses `transition`-driven `getComputedStyle` updates on hidden documents. The *specified* style (`element.style.transform`, `getAttribute('style')`) was correct throughout; only the *live interpolated computed value* was unreliable to sample directly. Worked around by forcing `transition-duration: 0ms` to observe the settled end-state instead of the animation mid-flight.
+2. **Synthetic Enter/Space key presses from this tool's `key` action don't populate `event.key`.** A raw `keydown` listener confirmed the event reaches the correctly-focused element (`isTrusted: true`, correct target), but with `key: ""` instead of `"Enter"`/`" "`. Browsers' native button-activation logic checks that property, so it doesn't fire — not because of anything in this project's markup (plain semantic `<button>` elements, zero custom keyboard handling), but because the tool's synthetic event is malformed for this specific purpose. Mouse-driven activation was verified working correctly and precisely (matrix values matched the target formula exactly) for all six targets.
+
+Both are logged here rather than in `DESIGN_DEBT.md` or `IMPLEMENTATION_RISKS.md` because they're facts about the test harness, not about the product.

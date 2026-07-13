@@ -35,3 +35,20 @@ body {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
+
+/*
+ * The camera's transform transition. Duration and easing are set inline
+ * per-focus by CameraContainer (they vary by target); this class only
+ * declares *that* `transform` transitions, and enforces the one rule
+ * that shouldn't vary per call: reduced motion means an instant cut,
+ * not a slower version of the same animation.
+ */
+.camera-transition {
+  transition-property: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camera-transition {
+    transition-duration: 0ms !important;
+  }
+}
