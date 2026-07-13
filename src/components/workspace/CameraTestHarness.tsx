@@ -1,6 +1,7 @@
 "use client";
 
-import { CAMERA_DURATION, type CameraTarget } from "@/hooks/useCamera";
+import { type CameraTarget } from "@/hooks/useCamera";
+import { DURATION } from "@/lib/motion";
 
 /**
  * TEMPORARY Milestone 3 verification scaffolding — exists only to prove
@@ -37,9 +38,7 @@ export function CameraTestHarness({ onFocus, onReset }: CameraTestHarnessProps) 
         <button
           key={name}
           type="button"
-          onClick={() =>
-            onFocus(target, name === "window" ? CAMERA_DURATION.slow : CAMERA_DURATION.standard)
-          }
+          onClick={() => onFocus(target, name === "window" ? DURATION.slow : DURATION.standard)}
           className="rounded border border-zinc-400 bg-white/80 px-2 py-1 capitalize dark:bg-zinc-900/80"
         >
           {name}

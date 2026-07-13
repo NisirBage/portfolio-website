@@ -1,14 +1,15 @@
 "use client";
 
-import { CAMERA_EASING, CAMERA_IDENTITY, cameraTransform, type CameraTarget } from "@/hooks/useCamera";
+import { CAMERA_IDENTITY, cameraTransform, type CameraTarget } from "@/hooks/useCamera";
+import { EASING } from "@/lib/motion";
 
 /**
  * Applies whatever transform/timing it's given via CSS `transition`,
  * per EXPERIENCE_ARCHITECTURE.md's Camera Philosophy. Purely
  * presentational — it takes a target and duration as props and knows
  * nothing about what produced them, per Milestone 3's requirement that
- * the camera stay content-agnostic. `motion-reduce:` collapses the
- * transition to an instant cut; see globals.css for the underlying rule.
+ * the camera stay content-agnostic. `.motion-transition` (globals.css)
+ * collapses to an instant cut under `prefers-reduced-motion: reduce`.
  */
 
 interface CameraContainerProps {
@@ -24,12 +25,12 @@ export function CameraContainer({
 }: CameraContainerProps) {
   return (
     <div
-      className="camera-transition absolute inset-0"
+      className="motion-transition absolute inset-0"
       style={{
         transform: cameraTransform(target),
         transformOrigin: "0 0",
         transitionDuration: `${durationMs}ms`,
-        transitionTimingFunction: CAMERA_EASING,
+        transitionTimingFunction: EASING,
       }}
     >
       {children}

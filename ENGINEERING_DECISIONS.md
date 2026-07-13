@@ -68,3 +68,35 @@ Two genuine automation-tool quirks surfaced while verifying this milestone, both
 2. **Synthetic Enter/Space key presses from this tool's `key` action don't populate `event.key`.** A raw `keydown` listener confirmed the event reaches the correctly-focused element (`isTrusted: true`, correct target), but with `key: ""` instead of `"Enter"`/`" "`. Browsers' native button-activation logic checks that property, so it doesn't fire — not because of anything in this project's markup (plain semantic `<button>` elements, zero custom keyboard handling), but because the tool's synthetic event is malformed for this specific purpose. Mouse-driven activation was verified working correctly and precisely (matrix values matched the target formula exactly) for all six targets.
 
 Both are logged here rather than in `DESIGN_DEBT.md` or `IMPLEMENTATION_RISKS.md` because they're facts about the test harness, not about the product.
+
+---
+
+## Milestone 4
+
+### State Manager: single `activeLayer`, URL-synced via push (not `router.back()`) on both open and close
+
+`useLayerStack` exposes `activeLayer`, `open(id)`, `close()`. Deliberately not a stack of arbitrary depth — see `ASSUMPTIONS.md` A5. `close()` pushes an explicit "no panel" URL rather than calling `router.back()`, because `back()` is unsafe for a visitor who arrived at `?panel=dummy` as a deep link — there's no guarantee "back" leads anywhere sensible for them. The cost is one extra history entry per close; recorded as a deliberate tradeoff, not an oversight.
+
+### Layer Engine: presentational only, `inert` (not just `aria-hidden`) while closed
+
+`LayerPanel` renders from `isOpen` alone and has no reference to what opened it. `inert` is used specifically because `aria-hidden` alone doesn't remove a closed-but-mounted panel from the Tab order — a real, easy-to-miss gap if only screen-reader hiding is considered and keyboard reachability isn't checked separately.
+
+### `LayerPanel` renders as a sibling of the camera stage, not nested inside it
+
+Per the Layer Responsibilities rule, the Layer engine and Camera engine are separate concerns — the panel has no reason to sit inside the stage's `overflow-hidden` container built for the zoomed pixel-art scene. This was originally going to be a "nice to have" architectural cleanup; it became load-bearing once a real rendering bug (below) needed a genuine architectural boundary, not a CSS patch, to be ruled out as a contributing factor.
+
+### A real browser rendering bug, root-caused properly rather than patched blindly
+
+**Observed behaviour.** After the dummy layer's open transition completed, the (unrelated) camera-test-harness buttons — siblings elsewhere in the document — rendered 384px to the left of their correct position. `document.activeElement`/URL/panel state were all otherwise correct.
+
+**Possible causes considered.** (1) A CSS class conflict (`w-full` vs `max-w-sm`) on the panel. (2) Shared `overflow-hidden` ancestry between the panel and the harness. (3) Interaction between the panel's `inert` toggle and its `transform` transition. (4) Next.js router-navigation side effects. (5) A dev-server/Fast-Refresh artifact.
+
+**Experiments.** Each cause was tested in isolation, not assumed: swapped the width classes (no effect once retested cleanly); removed the panel from the DOM entirely (fixed it — confirmed the panel's presence was necessary); restructured the DOM so the panel and the harness no longer share an `overflow-hidden` ancestor (did **not** fix it — ruled out shared-ancestry as the mechanism); reproduced against a production build on a separate port, not just the dev server (identical result — ruled out Fast Refresh/Turbopack); triggered the exact same state change via raw `history.pushState` with no camera interaction at all (still reproduced — ruled out the camera system entirely); compared `offsetLeft` (0, correct) against `getBoundingClientRect()` (wrong) with zero `transform` anywhere in the affected element's ancestor chain (a genuine layout/paint desync, not a CSS misconfiguration); tried `will-change: transform` on the panel (no effect); confirmed that *any* unrelated forced reflow (`document.body.style.display` toggled off and back) reliably corrected the paint state.
+
+**Root cause.** A Chromium paint-invalidation bug triggered by toggling the `inert` attribute on an element in the same update as a `transform` transition, which leaves unrelated absolutely-positioned siblings elsewhere in the document with a stale painted position that even a forced synchronous layout read doesn't correct. Category, per the Test Environment Matrix: **Browser**, not Application, Framework, or Testing Tool — confirmed by ruling out each of those alternatives with a specific experiment, not by default.
+
+**Fix.** A `requestAnimationFrame`-scheduled forced reflow (toggle `document.body.style.display` off and back) runs once whenever the panel opens. This is a workaround for a confirmed external bug, not a design choice — commented in `LayerPanel.tsx` with the full reasoning so a future reader doesn't mistake it for dead code and delete it, and so it's easy to remove later if a browser update fixes the underlying issue.
+
+**Verification.** Re-tested through the actual React-driven open/close/back-forward flow (not manual DOM patching) against a fresh production build: harness position correct (136px) through open, close, and browser-back; panel position, URL sync, and focus-on-open all still correct.
+
+**What's still Assumed, not Verified.** Focus-return-to-trigger on close was tested via a JS-dispatched `.click()`, which — per the DOM spec — does not necessarily focus an element the way a real mouse click does. `previouslyFocused.current` may have captured `document.body` rather than the actual trigger button in this specific test, which would explain why focus landed on `<body>` after close rather than back on "Open dummy layer." This needs re-verification with a real click before Version 1 ships; logged in `ASSUMPTIONS.md` rather than treated as confirmed.

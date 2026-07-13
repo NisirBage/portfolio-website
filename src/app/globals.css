@@ -37,18 +37,21 @@ body {
 }
 
 /*
- * The camera's transform transition. Duration and easing are set inline
- * per-focus by CameraContainer (they vary by target); this class only
- * declares *that* `transform` transitions, and enforces the one rule
- * that shouldn't vary per call: reduced motion means an instant cut,
- * not a slower version of the same animation.
+ * Shared transform-transition rule for anything animating via
+ * translate/scale — the camera and, as of Milestone 4, layer panels.
+ * Duration and easing are set inline per-call (they vary by target or
+ * by open/close); this class only declares *that* `transform`
+ * transitions, and enforces the one rule that shouldn't vary per call:
+ * reduced motion means an instant cut, not a slower version of the
+ * same animation. Named generically (not `.camera-transition`) once a
+ * second consumer existed — see ENGINEERING_DECISIONS.md Milestone 4.
  */
-.camera-transition {
+.motion-transition {
   transition-property: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .camera-transition {
+  .motion-transition {
     transition-duration: 0ms !important;
   }
 }

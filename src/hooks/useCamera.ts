@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { DURATION } from "@/lib/motion";
 
 /**
  * Content-agnostic camera state. A target is a point to center on plus a
@@ -18,21 +19,6 @@ export interface CameraTarget {
 
 export const CAMERA_IDENTITY: CameraTarget = { x: 50, y: 50, scale: 1 };
 
-/**
- * Timing bands from MICROINTERACTIONS.md, as concrete values within each
- * documented range. Duration is a property of *what* is being focused
- * (a Desk zoom vs. the Window's deliberate Slow exception), which the
- * camera doesn't know — callers pick the band.
- */
-export const CAMERA_DURATION = {
-  fast: 200,
-  standard: 500,
-  slow: 700,
-} as const;
-
-/** Decelerates into the target, per EXPERIENCE_ARCHITECTURE.md's Camera Philosophy. */
-export const CAMERA_EASING = "cubic-bezier(0.16, 1, 0.3, 1)";
-
 interface CameraState {
   target: CameraTarget;
   durationMs: number;
@@ -41,10 +27,10 @@ interface CameraState {
 export function useCamera(initial: CameraTarget = CAMERA_IDENTITY) {
   const [state, setState] = useState<CameraState>({
     target: initial,
-    durationMs: CAMERA_DURATION.standard,
+    durationMs: DURATION.standard,
   });
 
-  const focus = useCallback((target: CameraTarget, durationMs: number = CAMERA_DURATION.standard) => {
+  const focus = useCallback((target: CameraTarget, durationMs: number = DURATION.standard) => {
     // Deliberately just replaces the target. No queue, no cancellation
     // flag: a CSS `transition` on `transform` interpolates from whatever
     // is currently rendered to the new target automatically, which is
@@ -55,7 +41,7 @@ export function useCamera(initial: CameraTarget = CAMERA_IDENTITY) {
   }, []);
 
   const reset = useCallback(
-    (durationMs: number = CAMERA_DURATION.standard) => focus(CAMERA_IDENTITY, durationMs),
+    (durationMs: number = DURATION.standard) => focus(CAMERA_IDENTITY, durationMs),
     [focus],
   );
 
