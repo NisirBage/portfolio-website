@@ -18,6 +18,16 @@
 | Render counts / unnecessary re-renders | Not profiled | — | **Unknown** — would need React DevTools Profiler, not available in this environment |
 | Memory growth | Not measured | — | **Unknown** |
 
+## Milestone 6 update
+
+| Metric | Value | How measured | Confidence |
+|---|---|---|---|
+| Total static build output | ~693 KB (+4 KB from Milestone 5) | `du -sh .next/static/chunks` after a production build | **Medium**, same caveat as above |
+| New content added | 3 project summaries + architecture lists, ~1.5 KB of text total | Direct measure of `content/projects.ts` | **Very High** |
+| Blueprint reveal animation | 350ms | Read from the `.blueprint-unroll` CSS keyframe declaration | **Very High** |
+
+A 4KB bundle growth for three full project write-ups plus their accordion/reveal logic is not worth optimizing against any budget. Interaction latency, render counts, and memory growth remain **Unknown** — unchanged from Milestone 5, still waiting on real profiling tooling.
+
 ## What this milestone did *not* need to optimize
 
 Per "avoid premature optimization, but never ignore measurable regressions": nothing above crossed a threshold worth acting on. The full static bundle is well under any reasonable budget for a portfolio site; the pixel-art assets are already tiny (confirmed, not assumed, back in `ASSET_REGISTRY.md`); the resume is fetched on demand only, verified via `Content-Length` matching the source file exactly.

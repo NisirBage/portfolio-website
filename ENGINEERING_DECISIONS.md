@@ -157,3 +157,23 @@ Per the Layer Responsibilities rule, the Layer engine and Camera engine are sepa
 **How future engineers can avoid repeating it.** When a workaround depends on a browser API with its own scheduling semantics (`requestAnimationFrame`, `IntersectionObserver`, etc.), test that API's actual firing behavior in isolation under the same test conditions before trusting a workaround built on top of it — don't just test the workaround's end-to-end symptom once and move on.
 
 **Confidence in the current fix:** **High** — verified through the real interaction flow on a production build, on the exact tab condition (`document.hidden`) that broke the previous version, but not yet cross-browser or on a real foregrounded tab (`ASSUMPTIONS.md` A7, updated).
+
+---
+
+## Milestone 6
+
+### Content Truthfulness, applied as a real constraint, not a slogan
+
+Before writing any Level 2-4 content, `PROJECT_CONTENT_REVIEW.md` audited all three flagship projects the way an interviewer would, using only verifiable evidence. The result changed the implementation plan: the Neonatal Simulator's own repository README (read directly — real architecture, a design-pattern table with stated rationale, 41 real tests, a real GitHub URL) supports genuine Level 3 depth. The Industrial Safety Platform and Spam/Phishing Detector have resume-bullet-only evidence, and their Level 3 content is deliberately thinner rather than padded to match — inventing tradeoff narratives neither project has documented would have been exactly the "inflated language" this milestone was scoped to eliminate. Gaps are tracked in `MISSING_CONTENT.md`, not silently filled.
+
+### Accordion state stays local to `DeskPanel`, not promoted to `useLayerStack`
+
+Confirms `ASSUMPTIONS.md` A5: expanding a project to Level 2/3 is `useState` inside `DeskPanel`/`ProjectAccordionItem`, not a second Layer-stack entry. One project's expand state doesn't need URL sync or browser back/forward of its own — only the Desk Layer itself does. Building this the simple way first, and only promoting it to the Layer Engine if a real future need shows up, is Small Surface Area in practice, not just in principle.
+
+### The Blueprint reveal is a second, independent trigger inside Level 2 — not automatic
+
+Per `INTERACTION_SPECIFICATION.md`, "See the architecture" is its own click, distinct from expanding the accordion item. This matters for Progressive Disclosure: a visitor who only wants the one-paragraph summary never has architecture-list content forced into view, and the outbound link only appears once Level 3 is actually opened, not the moment the project expands.
+
+### Verification
+
+Tested through the real click flow on a production build (not manual DOM patching): all three projects expand and collapse correctly; the accordion is mutually exclusive (opening a second project closes the first — confirmed via `aria-expanded` on both, not assumed from one); the Neonatal project's Blueprint reveal shows all four architecture points and links to the real, verified repository URL; the Milestone 5 paint-bug fix (`setTimeout`) still holds under the same `document.hidden` condition, confirming Milestone 5's fix generalizes to real content, not just the one interaction it was verified against.

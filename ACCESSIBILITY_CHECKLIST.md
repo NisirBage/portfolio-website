@@ -19,6 +19,9 @@
 | **Screen reader** | ❓ Unknown | No VoiceOver/NVDA testing yet — `IMPLEMENTATION_RISKS.md` already scoped a dedicated pass for Milestone 10; not pulled forward. |
 | **Browser compatibility** | ❓ Unknown beyond Chromium | Every verification this session ran against one Chromium-based tool. Firefox/Safari untested (`ASSUMPTIONS.md` A3, A7). |
 | **Decorative content hidden from AT** | ✅ Verified | Room shell and door sprites use `alt=""`; the idle-pulse Desk marker has a real `aria-label` since it's interactive, not decorative. |
+| **Accordion state — `aria-expanded`** | ✅ Verified (Milestone 6) | Each project's expand button carries a real `aria-expanded` attribute, confirmed `true`/`false` correctly via mouse-driven testing on a production build across all three projects, including mutual-exclusivity (opening one collapses another). |
+| **Outbound links — `rel="noreferrer"`** | ✅ Verified (Milestone 6) | Every Level 4 outbound link (`target="_blank"`) carries `rel="noreferrer"`, preventing the opened page from accessing `window.opener` — a real security/privacy default, not just an accessibility one. |
+| **Progressive disclosure — no forced depth** | ✅ Verified (Milestone 6) | A visitor can read a project's Level 2 summary without the Level 3 architecture list ever entering the DOM's visible content — "See the architecture" is a real second click, not auto-revealed, confirmed by inspecting the panel's content before and after that click. |
 
 ## What "progressively more complete" means going forward
 

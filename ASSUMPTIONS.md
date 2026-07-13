@@ -40,11 +40,11 @@
 
 ### A5 — Milestone 4's Layer state (single `activeLayer: string | null`) is sufficient through Milestone 6, without needing a generalized multi-depth stack
 
-- **Evidence.** `LOW_FIDELITY_EXPLORATION.md`'s accordion decision (Option C) for the Projects Layer expands *within* a single open layer, not by pushing additional layers on top of it — so project-detail depth is local state inside one Layer's content, not a second layer-stack entry. Reasoned from the frozen design docs, not yet built against.
-- **Confidence.** Medium-High.
-- **Risk.** Medium — if wrong, Milestone 6 would need to either extend `useLayerStack` to real multi-depth stacking or introduce a second, incompatible state shape, which `IMPLEMENTATION_RISKS.md`-style thinking would call a real (if contained) cost.
-- **Validation plan.** Confirm when Milestone 6 (Projects Layer) is actually implemented.
-- **Status.** Pending.
+- **Evidence.** `LOW_FIDELITY_EXPLORATION.md`'s accordion decision (Option C) for the Projects Layer expands *within* a single open layer, not by pushing additional layers on top of it — so project-detail depth is local state inside one Layer's content, not a second layer-stack entry. **Built and verified in Milestone 6:** `DeskPanel`'s accordion state is plain `useState`, confirmed mutually exclusive across all three projects via `aria-expanded` checks on a production build, with zero changes needed to `useLayerStack`.
+- **Confidence.** **Very High** (raised from Medium-High) — no longer reasoned from design docs alone, built and tested.
+- **Risk.** None remaining for the current scope.
+- **Validation plan.** Complete.
+- **Status.** **Verified.**
 
 ### A6 — `LayerPanel` correctly returns focus to the element that opened it
 

@@ -111,3 +111,31 @@ body {
     animation: none;
   }
 }
+
+/*
+ * Milestone 6 — the Blueprint reveal (Moments of Delight #2): the
+ * architecture list unrolls diagonally, like a drawing being unrolled on
+ * the desk, distinct from the accordion expand it lives inside.
+ */
+@keyframes blueprint-unroll {
+  from {
+    opacity: 0;
+    transform: scaleY(0.85) rotate(-1deg);
+    transform-origin: top left;
+  }
+  to {
+    opacity: 1;
+    transform: scaleY(1) rotate(0deg);
+    transform-origin: top left;
+  }
+}
+
+.blueprint-unroll {
+  animation: blueprint-unroll 350ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blueprint-unroll {
+    animation: none;
+  }
+}
