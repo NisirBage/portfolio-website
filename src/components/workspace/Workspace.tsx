@@ -2,57 +2,52 @@
 
 import Image from "next/image";
 import { ASSETS } from "@/lib/assets";
-import { ROOM_CANVAS, getDoorPlacements } from "@/lib/roomGeometry";
+import { ROOM_CANVAS, DESK_HOTSPOT, getDoorPlacements } from "@/lib/roomGeometry";
 import { useCamera } from "@/hooks/useCamera";
 import { useLayerStack } from "@/hooks/useLayerStack";
 import { DURATION } from "@/lib/motion";
+import { PersistentActions } from "@/components/PersistentActions";
 import { CameraContainer } from "./CameraContainer";
 import { CameraTestHarness } from "./CameraTestHarness";
 import { LayerPanel } from "./LayerPanel";
-
-const DUMMY_TARGET = { x: 38.7, y: 50, scale: 2.2 };
+import { DeskHotspot } from "./DeskHotspot";
+import { DeskPanel } from "./DeskPanel";
 
 /**
- * The establishing shot plus the camera (Milestone 3) and layer (Milestone
- * 4) systems. Layer order, bottom to top, unchanged from Milestone 2:
+ * The establishing shot plus the camera (Milestone 3), layer (Milestone
+ * 4), and now the first real hotspot with real content (Milestone 5).
+ * Layer order, bottom to top:
  *   1. Room shell (floor/wall zones)
  *   2. Door dressing (Background tier, non-interactive)
+ *   3. Desk hotspot (Milestone 5's first real, content-backed hotspot)
  * Camera and Layer both stay content-agnostic — Workspace is the
- * composition root that coordinates them for this one dummy trigger.
- * That coordination is intentionally inline here rather than a named
- * "Interaction Engine" module: there's exactly one consumer right now,
- * and generalizing before a second one exists would be exactly the
- * placeholder architecture the engineering rules warn against.
- *
- * LayerPanel renders as a sibling of the camera stage, not nested inside
- * it — the Layer engine and Camera engine are separate concerns per the
- * Layer Responsibilities rule, and the panel has no reason to sit inside
- * the stage's `overflow-hidden` clipping container built for the zoomed
- * pixel-art scene. This was also the fix for a real rendering bug found
- * during Milestone 4 testing (see ENGINEERING_DECISIONS.md): nesting an
- * `inert`-toggling, transform-transitioning panel inside that same
- * `overflow-hidden` container triggered a Chromium paint/layout desync
- * on unrelated siblings. Restructuring around the actual architectural
- * boundary fixed the real bug as a side effect, rather than working
- * around symptoms.
+ * composition root that coordinates them. The Milestone 4 "dummy layer"
+ * proof-of-concept is retired now that a real consumer (Desk) exists;
+ * keeping both would be exactly the placeholder architecture the
+ * engineering rules warn against.
  */
 export function Workspace() {
   const doors = getDoorPlacements(ASSETS.doorClosed.width, ASSETS.doorClosed.height);
   const camera = useCamera();
   const layers = useLayerStack();
 
-  function openDummyLayer() {
-    camera.focus(DUMMY_TARGET, DURATION.standard);
-    layers.open("dummy");
+  function openDesk() {
+    camera.focus(
+      { x: DESK_HOTSPOT.centerXPercent, y: DESK_HOTSPOT.centerYPercent, scale: DESK_HOTSPOT.cameraScale },
+      DURATION.standard,
+    );
+    layers.open("desk");
   }
 
-  function closeDummyLayer() {
+  function closeLayer() {
     layers.close();
     camera.reset();
   }
 
   return (
     <div className="relative flex h-full w-full items-center justify-center bg-zinc-100 p-4 dark:bg-zinc-950">
+      <PersistentActions />
+
       <div
         className="relative w-full max-w-5xl overflow-hidden"
         style={{ aspectRatio: `${ROOM_CANVAS.width} / ${ROOM_CANVAS.height}` }}
@@ -100,28 +95,16 @@ export function Workspace() {
               height: `${doors.frontWall.height}%`,
             }}
           />
+
+          {/* Layer 3: the Desk hotspot — real content, Milestone 5. */}
+          <DeskHotspot onOpen={openDesk} />
         </CameraContainer>
 
         <CameraTestHarness onFocus={camera.focus} onReset={camera.reset} />
-
-        <button
-          type="button"
-          onClick={openDummyLayer}
-          className="absolute top-2 right-2 rounded border border-zinc-400 bg-white/80 px-2 py-1 text-xs dark:bg-zinc-900/80"
-        >
-          Open dummy layer
-        </button>
       </div>
 
-      {/* Milestone 4 proof-of-concept: one dummy Focus state with
-          placeholder content, per IMPLEMENTATION_PLAN.md. Real content
-          (Desk, Bookshelf, etc.) arrives in Milestones 5+. */}
-      <LayerPanel isOpen={layers.activeLayer === "dummy"} title="Dummy Layer" onClose={closeDummyLayer}>
-        <p>
-          Placeholder content proving the Layer engine and state manager work end to end: URL-synced
-          open/close, focus moves into this panel on open and returns to the trigger on close, Escape
-          closes it, and the transition respects reduced motion.
-        </p>
+      <LayerPanel isOpen={layers.activeLayer === "desk"} title="Desk" onClose={closeLayer}>
+        <DeskPanel />
       </LayerPanel>
     </div>
   );

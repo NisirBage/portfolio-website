@@ -31,3 +31,15 @@ export const ASSETS = {
     registryRef: "ASSET_REGISTRY.md#doorsandwindowspng",
   },
 } as const satisfies Record<string, RegisteredAsset>;
+
+/**
+ * Non-image assets — no width/height, so they don't fit RegisteredAsset.
+ * Separate, honestly-typed registry rather than forcing a PDF into an
+ * interface built for sprites.
+ */
+export const DOCUMENTS = {
+  resume: {
+    src: "/documents/nisir-sanang-bage-resume.pdf",
+    label: "Resume (PDF)",
+  },
+} as const;

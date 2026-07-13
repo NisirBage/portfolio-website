@@ -58,6 +58,20 @@ export const DOOR_GAPS = {
   },
 } as const;
 
+/**
+ * The Desk hotspot — Milestone 5's first real (non-test-harness) hotspot.
+ * Centered on Zone 2 (`ZONE_BOUNDS_X.desk`), matching the target
+ * `CameraTestHarness` used for its own "desk" test button, which is now
+ * removed in favor of this real one (Design For Deletion: the harness
+ * shrinks as real hotspots replace its stand-ins, rather than the two
+ * coexisting indefinitely).
+ */
+export const DESK_HOTSPOT = {
+  centerXPercent: 38.7,
+  centerYPercent: 50,
+  cameraScale: 2.2,
+} as const;
+
 /** left/top/width/height as percentages of the room canvas, ready for CSS. */
 export interface PercentRect {
   left: number;

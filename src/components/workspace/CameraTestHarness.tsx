@@ -4,14 +4,13 @@ import { type CameraTarget } from "@/hooks/useCamera";
 import { DURATION } from "@/lib/motion";
 
 /**
- * TEMPORARY Milestone 3 verification scaffolding — exists only to prove
- * "all six SPATIAL_BLUEPRINT.md anchors are reachable" and to give the
- * accessibility/keyboard checks something real to exercise. This is
- * explicitly the "placeholder hotspots (unstyled boxes are fine)" the
- * plan calls for, not the real hotspot system. It will be removed once
- * Milestone 5+ builds actual hotspots with real content — at which point
- * these six numbers should be re-verified against real sprite positions
- * the same way the door gaps were, not assumed still correct.
+ * TEMPORARY Milestone 3 verification scaffolding for the zones that
+ * still have no real content. "desk" was removed here in Milestone 5
+ * once `DeskHotspot` replaced it with a real, content-backed hotspot —
+ * Design For Deletion in practice: this harness shrinks as real
+ * hotspots replace its stand-ins, rather than the two coexisting
+ * indefinitely. The remaining five will be removed the same way as
+ * Milestones 7+ build their real content.
  *
  * Coordinates are approximate zone-center points derived from
  * roomGeometry.ts's measured zone bounds — reasonable for testing the
@@ -19,7 +18,6 @@ import { DURATION } from "@/lib/motion";
  */
 const TEST_TARGETS: Record<string, CameraTarget> = {
   leadership: { x: 16.5, y: 50, scale: 2.2 },
-  desk: { x: 38.7, y: 50, scale: 2.2 },
   clock: { x: 49.8, y: 50, scale: 2.5 },
   research: { x: 60.9, y: 50, scale: 2.2 },
   coffee: { x: 83.9, y: 50, scale: 2.2 },

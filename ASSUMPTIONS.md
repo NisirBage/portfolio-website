@@ -55,11 +55,20 @@
 - **Validation plan.** Re-test with an actual mouse click (or the Enter-key path once A1 is validated with real hardware) before Version 1 ships.
 - **Status.** Pending.
 
-### A7 — The forced-reflow workaround for the Chromium `inert` + `transform` paint bug (Milestone 4) continues to work across browser updates
+### A7 — The forced-reflow workaround for the Chromium `inert` + `transform` paint bug continues to work across browser updates
 
-- **Assumption.** The `document.body.style.display` toggle in `LayerPanel.tsx` reliably prevents the paint-invalidation bug documented in `ENGINEERING_DECISIONS.md` Milestone 4, not just in the Chromium build tested this session.
-- **Evidence.** Root-caused with a full elimination trail (dev vs. production build, DOM restructuring, CSS class changes, camera-system involvement all ruled out individually) and verified fixed through the real React-driven interaction flow, not just manual DOM patching. Not tested against other browser engines (Firefox, Safari/WebKit) or future Chromium versions where the underlying bug may already be fixed or may manifest differently.
-- **Confidence.** Medium — the workaround is evidenced, not guessed, but its durability outside the tested environment is unverified.
-- **Risk.** Low — if the underlying browser bug is later fixed, this workaround becomes a harmless no-op, not a new bug; if it's present differently in another engine, worst case the visual glitch returns, not a crash.
+- **Assumption.** The `document.body.style.display` toggle in `LayerPanel.tsx` reliably prevents the paint-invalidation bug documented in `ENGINEERING_DECISIONS.md`, not just in the Chromium build tested this session.
+- **Evidence.** Root-caused with a full elimination trail (dev vs. production build, DOM restructuring, CSS class changes, camera-system involvement all ruled out individually). **Updated in Milestone 5:** the original `requestAnimationFrame`-scheduled version of this fix was re-tested on a real content-bearing interaction and failed — traced, via a clean isolated experiment, to rAF never firing at all on a `document.hidden` tab (not merely throttled). Replaced with `setTimeout(fn, 0)`, which is not visibility-gated, and re-verified working under the exact condition that broke the rAF version. Still not tested against other browser engines or future Chromium versions.
+- **Confidence.** **High** (raised from Medium) — the mechanism itself was stress-tested this milestone, not just its end-to-end symptom; durability outside Chromium remains the open question.
+- **Risk.** Low — unchanged reasoning: a fixed browser bug makes this a harmless no-op; a differently-behaving engine at worst brings back the visual glitch, not a crash.
 - **Validation plan.** Re-test on Firefox and Safari before Version 1 ships; revisit if a future Chromium update changes behavior.
+- **Status.** Pending.
+
+### A8 — Real Desk-hotspot keyboard activation and Escape-to-close work correctly for real users
+
+- **Assumption.** A real keyboard user can reach and activate the Desk hotspot with Enter/Space, and close the resulting panel with Escape.
+- **Evidence.** Same reasoning as A1 — plain semantic elements, zero custom keyboard code for activation, so this should be native browser behavior. Escape is handled via a `keydown` listener in `LayerPanel.tsx` (real code, not native-only), which has never been exercised with a working synthetic or real Escape key press this session, since the tool's synthetic key events are confirmed malformed (`ENGINEERING_DECISIONS.md` Milestone 3).
+- **Confidence.** Medium for Enter/Space activation (same reasoning as A1); Low for Escape specifically, since that path is custom code, not pure native behavior, and has literally never been observed to run.
+- **Risk.** Medium — if Escape doesn't work, it's a real, user-facing gap, not just an unverified formality.
+- **Validation plan.** Real-device test before Version 1 ships, same session as A1 and A6 ideally.
 - **Status.** Pending.

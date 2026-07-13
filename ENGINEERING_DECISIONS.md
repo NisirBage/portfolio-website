@@ -100,3 +100,60 @@ Per the Layer Responsibilities rule, the Layer engine and Camera engine are sepa
 **Verification.** Re-tested through the actual React-driven open/close/back-forward flow (not manual DOM patching) against a fresh production build: harness position correct (136px) through open, close, and browser-back; panel position, URL sync, and focus-on-open all still correct.
 
 **What's still Assumed, not Verified.** Focus-return-to-trigger on close was tested via a JS-dispatched `.click()`, which — per the DOM spec — does not necessarily focus an element the way a real mouse click does. `previouslyFocused.current` may have captured `document.body` rather than the actual trigger button in this specific test, which would explain why focus landed on `<body>` after close rather than back on "Open dummy layer." This needs re-verification with a real click before Version 1 ships; logged in `ASSUMPTIONS.md` rather than treated as confirmed.
+
+---
+
+## Milestone 5
+
+### Content: the first real "Content" layer artifact
+
+`src/content/projects.ts` — three `ProjectSummary` records, Level 1 only (headline + one-liner), matching `CONTENT_HIERARCHY.md`'s Critical tier. Deliberately has no fields for architecture/tradeoffs/source links yet — Milestone 6 adds those when it builds the depth that needs them, rather than this file carrying empty placeholder fields now.
+
+### API Review — new public surfaces introduced this milestone
+
+| API | Consumer | Responsibility | Lifetime | Replacement strategy |
+|---|---|---|---|---|
+| `DESK_HOTSPOT` (`roomGeometry.ts`) | `Workspace.tsx`, `DeskHotspot.tsx` | Desk's fixed position/scale constants | Until Milestone 6 potentially needs per-project sub-positions | Extend in place; no consumer outside this module needs to change |
+| `DeskHotspot` component | `Workspace.tsx` only | Render + idle-animate the one real hotspot that exists | Through Milestone 7 or so, until enough hotspots exist to justify a generic `<Hotspot>` component | Generalize only once a second, third real hotspot (Bookshelf, Leadership) shows the actual shared shape — not before |
+| `PROJECTS` (`content/projects.ts`) | `DeskPanel.tsx` | The three flagship projects' Level 1 content | Grows fields in Milestone 6, not replaced | Additive — new fields, not a new shape |
+| `PersistentActions` | `Workspace.tsx` only | Resume + Contact, always-reachable | Indefinite — this is the permanent home for both, not scaffolding | N/A — this is intended to be stable |
+
+### Design For Deletion, applied twice this milestone
+
+1. Removed `"desk"` from `CameraTestHarness.TEST_TARGETS` now that `DeskHotspot` is real — the harness got smaller, confirming it was genuinely temporary rather than becoming permanent scaffolding by inertia.
+2. Removed the Milestone 4 "dummy layer" proof-of-concept button and its wiring entirely, now that `LayerPanel` has a real consumer (Desk) proving the same mechanism. Keeping both would have been exactly the kind of code that "if deleted six months from now, the architecture gets simpler" — so it was deleted now instead of waiting.
+
+### Coupling Review
+
+- **More coupled:** `Workspace.tsx` now imports `DESK_HOTSPOT` from `roomGeometry.ts` and coordinates `camera.focus()` + `layers.open()` together for one real interaction — an increase from Milestone 4's inline coordination of one *dummy* interaction to one *real* one. Same shape, real content now.
+- **Less coupled:** `CameraTestHarness` no longer needs to know about Desk at all — one less concern in a component explicitly documented as temporary.
+- **Dependencies that disappeared:** the dummy-layer button's direct coupling to `DUMMY_TARGET` and the hardcoded dummy content string in `Workspace.tsx`.
+- **New dependencies:** `DeskPanel.tsx` → `content/projects.ts` (Layer content depending on Content — the intended direction per Layer Responsibilities, not an accident); `PersistentActions.tsx` → `lib/assets.ts`'s new `DOCUMENTS` export.
+
+### A real bug, root-caused with Falsification Before Confirmation — not just "the M4 fix"
+
+**Observation.** Reopening the (now real) Desk layer reproduced the exact Milestone 4 paint bug — despite the M4 fix still being present, unchanged, in the code.
+
+**Interpretation, held provisionally.** My first instinct was "the fix regressed somehow." I did not accept that — per Falsification Before Confirmation, the question was "what would prove the fix is still correct," not "how do I explain it broke."
+
+**Hypothesis.** The M4 fix depends on `requestAnimationFrame`, which is scheduled but the test tab reports `document.hidden: true` throughout this session (already known from Milestone 3). If Chromium suspends rAF callbacks entirely on hidden documents — not just throttles them — the fix's callback simply never runs here, independent of whether the fix itself is correct.
+
+**Experiment.** Scheduled a bare `requestAnimationFrame` with no relation to `LayerPanel` at all, and checked whether it fired after 2 seconds on the same hidden tab.
+
+**Evidence.** It did not fire. Confidence: **Very High** — a single clean, isolated experiment with an unambiguous result (a boolean flag either flips or it doesn't).
+
+**Conclusion.** The Milestone 4 fix was never unreliable — the mechanism it relied on (`requestAnimationFrame`) is unreliable specifically under conditions (`document.hidden`) that this test environment reproduces reliably but a real user's foregrounded browser tab would not. Re-classified `ASSUMPTIONS.md` A7 accordingly rather than left as originally written.
+
+**Fix.** Replaced `requestAnimationFrame` with `setTimeout(fn, 0)`, which is not visibility-gated. Re-verified: correct position immediately after the real click-driven open, on the same hidden tab, where the rAF version failed.
+
+### Postmortem — why this took longer than a "wire up a hotspot" milestone should have
+
+**Why it happened.** The Milestone 4 fix was verified once, under conditions that happened to let a throttled-but-not-fully-blocked rAF sneak in before the check ran. It looked solid because the *symptom* was gone, not because the *mechanism* had been stress-tested.
+
+**Why it looked reasonable at the time.** "Force a reflow shortly after the transition starts" is a legitimate, well-known pattern — the specific choice of *which* deferred-execution API to use looked like an implementation detail, not a load-bearing decision.
+
+**How the investigation evolved.** Reproducing the bug on a real content-bearing interaction (not the disposable dummy one) surfaced that the earlier fix's verification had a hidden dependency on timing that hadn't been isolated. Falsifying the rAF-fires assumption directly, in under a minute, resolved it — the expensive part was Milestone 4's original bug hunt, not this one.
+
+**How future engineers can avoid repeating it.** When a workaround depends on a browser API with its own scheduling semantics (`requestAnimationFrame`, `IntersectionObserver`, etc.), test that API's actual firing behavior in isolation under the same test conditions before trusting a workaround built on top of it — don't just test the workaround's end-to-end symptom once and move on.
+
+**Confidence in the current fix:** **High** — verified through the real interaction flow on a production build, on the exact tab condition (`document.hidden`) that broke the previous version, but not yet cross-browser or on a real foregrounded tab (`ASSUMPTIONS.md` A7, updated).

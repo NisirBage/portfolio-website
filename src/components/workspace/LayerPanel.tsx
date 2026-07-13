@@ -49,16 +49,22 @@ export function LayerPanel({ isOpen, title, onClose, children }: LayerPanelProps
   // siblings — see ENGINEERING_DECISIONS.md Milestone 4 for the full
   // root-cause trail. A forced reflow after the transition starts is a
   // reliable, evidenced mitigation; it is not a guess.
+  //
+  // `setTimeout`, not `requestAnimationFrame`: verified during Milestone
+  // 5 that rAF callbacks never fire at all on a `document.hidden` tab in
+  // this test environment (confirmed in isolation, not assumed), which
+  // silently defeated this exact workaround under test. `setTimeout`
+  // isn't visibility-gated, so it can't have the same failure mode.
   useEffect(() => {
     if (!isOpen) return;
-    const id = requestAnimationFrame(() => {
+    const id = setTimeout(() => {
       const original = document.body.style.display;
       void document.body.offsetHeight;
       document.body.style.display = "none";
       void document.body.offsetHeight;
       document.body.style.display = original;
-    });
-    return () => cancelAnimationFrame(id);
+    }, 0);
+    return () => clearTimeout(id);
   }, [isOpen]);
 
   useEffect(() => {

@@ -55,3 +55,59 @@ body {
     transition-duration: 0ms !important;
   }
 }
+
+/*
+ * Milestone 5 — the Desk hotspot's discovery-mechanism idle animation
+ * (DESIGN_DEBT.md Finding #2: a first-time visitor may not realize the
+ * scene is interactive at all if nothing moves until they hover). A slow
+ * pulse, well within the Idle band from MICROINTERACTIONS.md (4-6s loop).
+ * Static under reduced motion — this is decorative, not information, so
+ * removing it entirely is the correct reduced-motion behavior, not just
+ * a faster version of it.
+ */
+@keyframes idle-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.idle-pulse {
+  animation: idle-pulse 5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .idle-pulse {
+    animation: none;
+    opacity: 0.75;
+  }
+}
+
+/*
+ * The Desk panel's boot-line reveal (Moments of Delight #1) — three
+ * lines appearing in sequence via staggered `animation-delay`, set
+ * per-line inline by the component. Pure CSS, no JS timing loop.
+ */
+@keyframes boot-line-in {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.boot-line {
+  animation: boot-line-in 200ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boot-line {
+    animation: none;
+  }
+}

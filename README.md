@@ -4,7 +4,7 @@ Interactive portfolio for Nisir Sanang Bage. Next.js (App Router), TypeScript (s
 
 ## Status
 
-Architecture frozen. Implementation in progress per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), one milestone at a time. Current milestone: **1 — Repository**.
+Architecture frozen. Implementation in progress per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), one milestone at a time. Current milestone: **5 — Desk Focus**, complete.
 
 ## Source of Truth
 
@@ -17,6 +17,13 @@ The design is not re-decided during implementation except for the six reasons li
 - [`ASSET_REGISTRY.md`](ASSET_REGISTRY.md) · [`MISSING_ASSETS.md`](MISSING_ASSETS.md) — what's real, what isn't (Asset Truthfulness Protocol — never assume an asset exists)
 - [`VERSION1_SCOPE.md`](VERSION1_SCOPE.md) — what's actually in scope for this version
 - [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) — the milestone-by-milestone build order and Definition of Done
+
+Implementation-side, updated every milestone:
+
+- [`ENGINEERING_DECISIONS.md`](ENGINEERING_DECISIONS.md) — how and why, per milestone; also where real bugs get root-caused on the record rather than silently patched
+- [`ASSUMPTIONS.md`](ASSUMPTIONS.md) — everything implementation depends on that hasn't been fully verified yet, with confidence/risk/validation plan for each
+- [`PERFORMANCE_BUDGET.md`](PERFORMANCE_BUDGET.md) — measured numbers only, labeled with how confident each one actually is
+- [`ACCESSIBILITY_CHECKLIST.md`](ACCESSIBILITY_CHECKLIST.md) — Verified / Partial / Gap per area, not rounded up
 
 ## Development
 
