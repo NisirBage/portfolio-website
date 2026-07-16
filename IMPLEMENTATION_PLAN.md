@@ -80,13 +80,15 @@ Scope per milestone is drawn directly from `VERSION1_SCOPE.md`'s Must Have list.
 
 ## Milestone 8 — Leadership Focus (grid fallback)
 
-**Produces.** The Leadership cluster content at the **grid** fidelity (Low-Fi Option A), per `VERSION1_SCOPE.md`'s Must-Have baseline — the fan-out is an explicit later upgrade, not part of this milestone's Definition of Done.
-- **Acceptance criteria.** Four clusters with quantified headlines visible without opening any individual item; the Whiteboard content (written in parallel per `VERSION1_SCOPE.md`) is live, not a placeholder.
-- **Manual tests.** Verify cluster counts match the real resume figures (24 conferences, 6 judged) — a factual accuracy check, not just a UI check.
-- **Edge cases.** A cluster with only one item (Case Comps, the smallest) doesn't look broken or sparse at grid scale.
-- **Accessibility checks.** Grid items keyboard-navigable in a predictable, linear order — the fan-out-specific keyboard/visual-position problem from `LOW_FIDELITY_EXPLORATION.md` doesn't apply to the grid fallback, worth confirming explicitly rather than assuming it's automatically fine.
-- **Performance checks.** Certificate images lazy-load; largest cluster (Model UN) doesn't block initial render.
-- **Regression risks.** Medium — this is also where the still-open certificate-PDF-cataloguing gap (`MISSING_ASSETS.md`) has to actually resolve, since real content is needed here, not placeholders.
+*Revised, Milestone 8: two corrections to this entry's original assumptions, both made before implementation rather than discovered mid-build. First, `MISSING_ASSETS.md` never actually contained a certificate-PDF-cataloguing gap — that cross-reference was stale; certificate frames use the generic verified sprite plus real text content, not scanned images, so there was never a blocking asset gap here. Second, the Whiteboard content described as "written in parallel" was not, in fact, available — `VERSION1_SCOPE.md` moved it to Should Have rather than shipping a fabricated framework; see `MISSING_CONTENT.md`.*
+
+**Produces.** The Leadership cluster content at the **grid** fidelity (Low-Fi Option A, implemented as cluster cards rather than per-certificate cells — see `INTERACTION_SPECIFICATION.md`), per `VERSION1_SCOPE.md`'s Must-Have baseline — the fan-out is an explicit later upgrade, not part of this milestone's Definition of Done.
+- **Acceptance criteria.** Four clusters with quantified headlines visible without opening any individual item. The Whiteboard is out of scope for this milestone (see revision note above).
+- **Manual tests.** Verify cluster counts match the real resume figures — *revised, post-Milestone 8: updated from an authoritative source to 25 conferences as delegate and 11 as chair, replacing the earlier "24 conferences, 6 judged" figures; see `ENGINEERING_DECISIONS.md`.*
+- **Edge cases.** A cluster with only one item (Case Comps, the smallest) doesn't look broken or sparse at grid scale — resolved by cluster cards carrying equal visual weight regardless of the count inside them.
+- **Accessibility checks.** Cluster cards keyboard-navigable in a predictable, linear order via standard panel `Tab` behaviour.
+- **Performance checks.** No certificate images exist to lazy-load (see revision note above) — content is plain text, negligible weight.
+- **Regression risks.** Low — no blocking asset gap, no fabricated content standing in for the Whiteboard.
 
 ## Milestone 9 — Mobile Fallback
 
@@ -99,6 +101,8 @@ Scope per milestone is drawn directly from `VERSION1_SCOPE.md`'s Must Have list.
 - **Regression risks.** Low, since this is intentionally a simpler, separate code path rather than a responsive variant of the desktop one.
 
 ## Milestone 10 — Cross-Cutting Accessibility & Performance Audit
+
+*Revised, post-Milestone-8: a "Production Hardening" pass (cross-browser review, performance review, deployment readiness, repository review — see `PROJECT_HEALTH.md` and `ENGINEERING_DECISIONS.md`) already covers real ground originally scoped here: the full 4-panel keyboard/focus audit, the source-level cross-browser compatibility review, and a genuine performance review. What that pass could **not** do — real non-Chromium browser testing, real screen-reader testing, a full-site Lighthouse run, and the specifically-*after-Mobile-Fallback* holistic walkthrough this milestone's brief calls for — remains this milestone's actual job. Treat Production Hardening as having front-loaded this milestone's source-level and single-browser work, not as having replaced it.*
 
 **Produces.** The same application as Milestone 9, verified holistically rather than milestone-by-milestone — this catches integration issues no single milestone's checks could see (e.g., focus order across the *whole* six-state system, not just within one state).
 - **Acceptance criteria.** Full keyboard-only walkthrough of every Must-Have state; actual screen-reader testing (VoiceOver or NVDA, not just automated tooling) per the maintenance-cost warning in `IMPLEMENTATION_RISKS.md`; full-site Lighthouse run.

@@ -20,10 +20,10 @@ Your suggested chain (Knowledge → Ideas → Systems → Impact → Leadership 
 
 > **Curiosity → Research → Systems → Leadership → Vision**
 
-- **Curiosity** — the content-writing work, the Tribal Design Forum membership, 24 Model UN conferences across every kind of committee. Breadth before specialization.
+- **Curiosity** — the content-writing work, the Tribal Design Forum membership, 25 Model UN conferences across every kind of committee *(revised, post-Milestone 8: updated from 24 to the confirmed figure from an authoritative updated CV — see `ENGINEERING_DECISIONS.md`)*. Breadth before specialization.
 - **Research** — the Kamilya lab work, deep learning applied to molecular/chemical data. Curiosity given a method.
 - **Systems** — the Safety Platform, the Neonatal Simulator, the Spam/Phishing Detector. Research and knowledge turned into something that runs.
-- **Leadership** — Director General of BITMUN 2026, Joint Secretary, Deputy Editor-in-Chief, six conferences judged. Systems don't build or organize themselves — someone has to lead the people who do.
+- **Leadership** — Director General of BITMUN 2026, plus 11 chairing roles across 2025–2026 *(revised, post-Milestone 8: replaces "six conferences judged," which the updated CV doesn't support — see `ENGINEERING_DECISIONS.md`)*. Joint Secretary and Deputy Editor-in-Chief are both carried forward from earlier research but remain unconfirmed by any source checked since — tracked in `ASSUMPTIONS.md`, not asserted here as settled fact. Systems don't build or organize themselves — someone has to lead the people who do.
 - **Vision** — what's next: the Window/Observatory. Where this compounds.
 
 This isn't forced onto the visitor as a labeled progression (no "Chapter 2: Research" banner). It emerges from *where things sit in the room relative to the desk* — see World Rules below — and from the order a curious visitor naturally encounters them, which [EXPERIENCE_STORYBOARD.md](EXPERIENCE_STORYBOARD.md) choreographs explicitly.

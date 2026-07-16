@@ -113,23 +113,31 @@ Every object's animation is unique — no two use the same motion vocabulary, pe
 
 ## Leadership Frames
 
+*Revised, Milestone 8: this milestone ships the grid fallback described below the original fan-out spec, per `VERSION1_SCOPE.md`'s Must-Have baseline. The fan-out animation (Gallery expansion) remains the target design and is preserved here unedited as the Should-Have upgrade — not replaced, just not yet built. The Whiteboard sub-interaction is deferred; see its own note below.*
+
+*Revised, post-Milestone 8 (content evolution): the shipped structure below moved from four activity-type clusters (Debate & APD / Model UN / Case Comps / Positions) to four transferable-capability clusters (Diplomacy / Communication / Leadership / Case Competitions), rebuilt from an updated, authoritative CV. See `ENGINEERING_DECISIONS.md`'s "Leadership content evolution" entry for the full delta. Each capability now also carries a maturity level (`CONTENT_MATURITY.md`) and an expand-in-place evidence list, reusing the Desk Layer's accordion pattern rather than the four flat cards described below.*
+
 **Asset status.** VERIFIED — filled picture-frame sprites (2 content variants) confirmed in `TopDownHouse_SmallItems.png`.
 **Purpose.** External validation — leadership, communication, and structured thinking, evidenced rather than claimed.
 **Associated skill.** Leadership, communication, mentoring, structured business thinking.
 **Primary audience.** Consulting Recruiter, hiring managers assessing culture/leadership fit.
 **Secondary audience.** Grad admissions committees (leadership is a real factor in most programs).
 **Interaction trigger.** Click/tap the frame wall.
-**Animation.** Gallery expansion — the frames fan out from the wall like a hand of cards being spread, clustered by category (Debate & APD / Model UN / Case Comps / Positions) rather than dumped as one flat grid.
-**Transition.** Zoom to the wall (500ms) → fan-out (400ms, staggered ~40ms per frame for a natural cascade rather than all frames moving in lockstep).
-**Exit behaviour.** Frames re-stack to the wall in reverse order; camera returns to Idle.
-**Accessibility.** Each frame is a real, individually focusable element with alt text describing the certificate (organization, role, date) — not just a decorative image.
-**Keyboard support.** `Tab` moves between frames within a cluster; arrow keys move between clusters.
-**Touch behaviour.** Tap a cluster to expand it; tap a frame to open its detail (Level 3: the reflection copy — what the round/role actually involved, not just the certificate scan).
-**Audio.** None — a gallery of dozens of items is exactly the kind of interaction where repeated sound would become genuinely annoying, so this is the one object with no audio option at all, opt-in or not.
+**Animation (target design, Should Have).** Gallery expansion — the frames fan out from the wall like a hand of cards being spread, clustered by category rather than dumped as one flat grid.
+**Animation (shipped, post-Milestone 8 content evolution).** A docked panel opens showing four capability cards (Diplomacy, Communication, Leadership, Case Competitions — evidence-weighted, not balanced), each expandable in place to reveal named evidence groups, reusing the Desk Layer's accordion pattern. No per-certificate frame sprites rendered individually, no fan-out motion.
+**Transition.** Zoom to the wall (500ms) → panel content fades in; fan-out (400ms, staggered ~40ms per frame) remains the target once built.
+**Exit behaviour.** Camera returns to Idle.
+**Accessibility.** Each capability card and evidence item is real, semantic text with `aria-expanded` on both the capability toggle and each nested evidence-group toggle — nothing baked into an image. The individually-focusable-frame-with-alt-text design remains the target for the fan-out upgrade, since this still doesn't render individual certificate frames.
+**Keyboard support.** Standard panel `Tab`/`Esc` behaviour, plus the accordion's own toggle buttons are real `<button>`s reachable in Tab order. The frame-specific arrow-key navigation described for the fan-out doesn't apply yet.
+**Touch behaviour.** Single tap to open the panel; single tap to expand a capability; single tap to reveal an evidence group.
+**Audio.** None, unchanged.
 **Narrative role.** Systems → Leadership — the pivot point where the metaphor moves from building things to leading people.
-**Success metric.** Cluster-open rate per category (tells us which achievement type recruiters actually care about, feeding future content priority).
+**Success metric.** Panel-open rate, plus (new) per-capability expand rate — which capability a visitor actually digs into is itself a signal worth having now that there are four independently-expandable ones.
 
-### Sub-interaction: Whiteboard (one specific frame, Leadership Wall)
+### Sub-interaction: Whiteboard (one specific frame, Leadership Wall) — deferred, Milestone 8
+
+**Status.** Not built this milestone. `VERSION1_SCOPE.md` moved this from Must Have to Should Have, Milestone 8, because the real content it requires — what a specific case-competition recommendation actually argued — isn't available. Per Content Truthfulness, this ships without it rather than with a fabricated framework; the gap is logged in `MISSING_CONTENT.md`. The spec below is preserved unchanged as the target design for whenever real content exists.
+
 **Asset status.** VERIFIED, corrected — originally specified as a filled certificate frame reused with different content; a closer-matching **blank frame sprite** was found in `TopDownHouse_SmallItems.png` during the asset re-verification pass and is now the specified asset (see `ASSET_REGISTRY.md`).
 **Purpose.** Show structured problem-solving directly, not just the placement result.
 **Content.** One worked case-competition example, styled as a hand-sketched framework rather than a certificate scan — same physical frame *category* as the certificates (a picture frame), but the blank variant rather than a filled one.

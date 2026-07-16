@@ -15,11 +15,12 @@
 - Screen-reader parallel linear document, content-complete
 - Mobile: the plain-list fallback (no spatial metaphor attempted)
 - A subtle first-paint idle animation on the Desk, addressing `DESIGN_DEBT.md` Finding #2 (discovery-mechanism risk) — new to this document, not present in earlier drafts
-- The Whiteboard case-comp content, actually written (a content task, schedulable in parallel with early engineering milestones)
+- ~~The Whiteboard case-comp content, actually written~~ — *revised, Milestone 8: demoted out of Must Have.* The real worked-framework content this requires (what a specific case-comp recommendation actually argued) isn't available; per Content Truthfulness, shipping without it and logging the gap is the honest call over fabricating a framework to hit this line item. See `MISSING_CONTENT.md`. Moved to Should Have below.
 
 ## Should Have
 
 - Leadership fan-out arc animation (upgrade from the grid fallback)
+- The Whiteboard case-comp content (*moved here, Milestone 8*, pending a real worked framework)
 - Blueprint unroll's diagonal-specific animation (vs. a plain reveal, if time is tight)
 - Environmental storytelling (visited-glow, Narrative States lighting)
 - Deep-linking to a specific Layer state, newly identified in `IMPLEMENTATION_RISKS.md`

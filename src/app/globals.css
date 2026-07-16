@@ -139,3 +139,424 @@ body {
     animation: none;
   }
 }
+
+/*
+ * Phase A — the Gramophone's playing-state feedback. A gentle vertical
+ * bob, not a spin: the sprite is one flat image with the horn, base, and
+ * record disc all baked into a single 18×21 crop, so rotating the whole
+ * object would visibly spin the horn and wooden cabinet along with the
+ * disc — mechanically wrong, not just a style choice. The spec's own
+ * "small rotation OR bounce" explicitly allows either; a small bounce
+ * doesn't misrepresent the object the way a full-body spin would.
+ * Paired with a soft warm glow. Muted state has neither — the badge
+ * sprite alone communicates it. Reduced motion drops the bounce
+ * entirely, keeping only a static (non-animated) glow.
+ */
+@keyframes gramophone-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6%);
+  }
+}
+
+@keyframes gramophone-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 1px rgba(217, 160, 62, 0.55));
+  }
+  50% {
+    filter: drop-shadow(0 0 3px rgba(217, 160, 62, 0.85));
+  }
+}
+
+.gramophone-playing {
+  /* Phase B, Part 14: glow was 3.5s, outside the spec's 2-3s idle-loop
+     band — tightened to 3s so both layers of the effect sit inside it. */
+  animation:
+    gramophone-bounce 2.4s ease-in-out infinite,
+    gramophone-glow 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gramophone-playing {
+    animation: none;
+    filter: drop-shadow(0 0 2px rgba(217, 160, 62, 0.7));
+  }
+}
+
+/*
+ * Phase B, Parts 4/6 — the "paper and wood" panel theme. No provided
+ * sheet actually contains a 9-slice panel-frame image (the two Phase B
+ * reference boards show the *look* of a framed cream panel, not a
+ * croppable asset with clean edges/alpha) — per Asset Truthfulness,
+ * approximating that look with real CSS (a stepped double border plus
+ * layered shadow, evoking a carved wood frame around laid paper) rather
+ * than fabricating a sprite that wasn't actually supplied. Sharp corners
+ * throughout (`radius: 0`) deliberately, not rounded — rounded corners
+ * read as "app modal," flat pixel-bordered rectangles read as part of
+ * the room's own pixel-art vocabulary.
+ */
+:root {
+  --panel-paper: #f3e8d2;
+  --panel-paper-shadow: #e2d2ac;
+  --panel-wood: #8a5a34;
+  --panel-wood-dark: #5c3b21;
+  --panel-ink: #3a2c1c;
+  /* Phase G — bronze accent, matching the Tier-2 sheet's own button/
+     corner-stud metalwork. A third metal tone alongside the existing
+     wood ones, not a replacement for either. */
+  --panel-bronze: #c08a3e;
+  --panel-bronze-dark: #7a5424;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --panel-paper: #362a1d;
+    --panel-paper-shadow: #2a2015;
+    --panel-wood: #9c6a3e;
+    --panel-wood-dark: #4a3320;
+    --panel-ink: #ecdfc4;
+    --panel-bronze: #d4a355;
+    --panel-bronze-dark: #8a6230;
+  }
+}
+
+.panel-paper {
+  background-color: var(--panel-paper);
+  color: var(--panel-ink);
+  border-radius: 0;
+  border: 2px solid var(--panel-wood);
+  box-shadow:
+    inset 0 0 0 2px var(--panel-paper-shadow),
+    inset 0 0 0 4px var(--panel-wood-dark),
+    0 8px 24px rgba(20, 12, 4, 0.35);
+  /*
+   * Phase C, Part 4 — a paper-grain texture. Not an image asset (no
+   * sprite was cropped or fabricated for this): a plain CSS crosshatch
+   * at very low opacity, layered under the solid `--panel-paper` color.
+   * Deliberately faint (1.2-1.5%) — legible as "this is paper," not as
+   * visual noise competing with the pixel art elsewhere in the room.
+   */
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.015) 0px, rgba(0, 0, 0, 0.015) 1px, transparent 1px, transparent 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.012) 0px, rgba(0, 0, 0, 0.012) 1px, transparent 1px, transparent 3px);
+}
+
+.panel-divider {
+  border: none;
+  border-top: 2px solid var(--panel-wood);
+  box-shadow: 0 1px 0 var(--panel-paper-shadow);
+  margin: 0;
+}
+
+/*
+ * Phase G — restyled from a flat 2-tone hover-invert into a raised
+ * "old RPG dialogue button" bevel, matching the Tier-2 sheet's own
+ * button chrome (a light top-left highlight, a dark bottom-right
+ * shadow, a bronze accent edge) rather than fabricating a stretchable
+ * sprite for every button in the app — see `ASSETS.saveSlotFrame`'s own
+ * comment for why the Save Slot's *one* Continue control gets a real
+ * cropped sprite instead and this one doesn't: no single fixed-size
+ * pixel-art button can stretch to fit Close/Done/Copy/Open/Download/
+ * Print's differing widths without visibly distorting, but a CSS bevel
+ * scales to any of them natively. Pressed state inverts the bevel and
+ * nudges the button down 1px — the same "squash toward the surface"
+ * language already used for the Gramophone/hotspots' own press feedback
+ * (`transform: scale(...)` on `:active`), not a new mechanism.
+ */
+.panel-button {
+  border-radius: 0;
+  border: 2px solid var(--panel-wood);
+  background-color: var(--panel-paper-shadow);
+  color: var(--panel-ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -2px 0 var(--panel-bronze-dark),
+    inset 1px 0 0 rgba(255, 255, 255, 0.15),
+    inset -1px 0 0 var(--panel-bronze-dark);
+  transition: filter 150ms ease, transform 100ms ease, box-shadow 100ms ease;
+}
+
+.panel-button:hover {
+  background-color: var(--panel-bronze);
+  color: var(--panel-ink);
+  filter: brightness(1.05);
+}
+
+.panel-button:active {
+  transform: translateY(1px);
+  box-shadow:
+    inset 0 -1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 2px 0 var(--panel-bronze-dark);
+}
+
+.panel-button:focus-visible {
+  outline: 2px solid var(--panel-wood-dark);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel-button {
+    transition: none;
+  }
+}
+
+/*
+ * Phase C, Part 4 — a small wood-toned marker beside every panel
+ * section title (`ResearchPanel`'s Field labels, `ProjectAccordionItem`/
+ * `LeadershipCapabilityItem`'s titles, `KnowledgePanel`'s domain names).
+ * One consistent glyph, not a different fabricated icon per concept —
+ * no per-topic icon sheet was ever supplied for "question," "stage,"
+ * "progress," etc., and inventing one per label would violate Asset
+ * Truthfulness. A single accent mark still satisfies "icons beside
+ * section titles" and gives every section the same small visual anchor.
+ */
+.section-marker {
+  color: var(--panel-wood, #8a5a34);
+  margin-right: 0.35em;
+}
+
+/*
+ * Phase C, Part 4 — accordion open/close animation via the
+ * `grid-template-rows: 0fr → 1fr` technique (animates to an intrinsic
+ * height without JS measuring `scrollHeight`, and without the
+ * layout-thrash a `max-height` guess would risk). The inner
+ * `overflow-hidden` wrapper is required for the 0fr state to actually
+ * clip content rather than just visually compress it.
+ */
+.accordion-collapse {
+  display: grid;
+  transition-property: grid-template-rows;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion-collapse {
+    transition-duration: 0ms !important;
+  }
+}
+
+/*
+ * Phase C, Part 1 — gramophone note particles. Two styled text glyphs
+ * (♪/♫), not a fabricated sprite, matching this codebase's existing
+ * ✕/✓ text-glyph precedent. Rises and fades once per cycle, staggered
+ * per-particle via inline `animation-delay` so both don't appear
+ * together — "occasionally," not "constantly."
+ */
+@keyframes note-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.8);
+  }
+  15% {
+    opacity: 0.85;
+  }
+  70% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-180%) scale(1.1);
+  }
+}
+
+.note-particle {
+  position: absolute;
+  font-size: 0.7rem;
+  color: rgba(217, 160, 62, 0.9);
+  pointer-events: none;
+  /* Phase C, Part 6: 5.2s, outside the 2-4s Idle band — a deliberate,
+     justified exception rather than an overlooked outlier. The brief's
+     own spec for this element is "occasionally appears," which is a
+     slower, rarer cadence than the Idle band's "ambient breathing"
+     purpose describes; two particles staggered ~2.6s apart within a
+     5.2s cycle is what keeps this reading as occasional rather than
+     constant. */
+  animation: note-float 5.2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .note-particle {
+    display: none;
+  }
+}
+
+/*
+ * Phase C, Part 2 — shared idle "breathing" for every interactive
+ * furniture sprite (Desk, Bookshelf, Research Stand, Leadership frames,
+ * Gramophone). A very subtle, always-on scale pulse distinct from
+ * `.idle-pulse` (which is an opacity-blink *discovery* affordance on
+ * the invisible click-target button, dropped once a hotspot is
+ * visited) — this one is about the room feeling alive, not about
+ * signaling "click me," so it stays on regardless of visited state.
+ * Each consumer sets its own `animation-delay` inline so five pieces of
+ * furniture don't visibly breathe in lockstep.
+ */
+@keyframes sprite-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.012);
+  }
+}
+
+.sprite-breathe {
+  /* Phase C, Part 6: the Idle band is explicitly 2-4s — 3.2s sits inside
+     it (was 6.5s pre-Part-6, an unjustified outlier the motion-band pass
+     caught and corrected, not a deliberate exception). */
+  animation: sprite-breathe 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite-breathe {
+    animation: none;
+  }
+}
+
+/*
+ * Toast entrance — Phase F.1, Part 6. A small upward slide-in, Fast
+ * band. Reduced-motion visitors still see the toast (it carries real
+ * information, unlike the purely decorative animations elsewhere in
+ * this file), just without the slide.
+ */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes toast-in {
+    from {
+      opacity: 1;
+      transform: none;
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/*
+ * Hotspot labels — Phase F.1, Part 8. Mobile-first: visible by default
+ * (the brief's "labels remain permanently visible" requirement for
+ * mobile), then hidden by default from the `sm` breakpoint up, revealed
+ * only via the `.hotspot-label--active` class each hotspot's own
+ * `useHoverState` already toggles — the same JS-driven state pattern
+ * already established for hover/press feedback everywhere else in this
+ * room, not a second, CSS-only `:hover` mechanism this project has
+ * already found unreliable to verify. A small paper-tag look (wood
+ * border, parchment fill), matching the panel system's own palette
+ * rather than a plain browser tooltip.
+ */
+.hotspot-label {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 4px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+  background-color: var(--panel-paper-shadow, #e2d2ac);
+  color: var(--panel-ink, #3a2c1c);
+  border: 1px solid var(--panel-wood, #8a5a34);
+  border-radius: 0;
+  opacity: 1;
+  transition: opacity 150ms ease;
+  z-index: 5;
+}
+
+@media (min-width: 640px) {
+  .hotspot-label {
+    opacity: 0;
+  }
+
+  .hotspot-label--active {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hotspot-label {
+    transition: none;
+  }
+}
+
+/*
+ * `steam-rise`/`.steam-wisp` (Phase D's Coffee Corner rising steam) were
+ * removed here in Phase F.1 along with `CoffeeHotspot.tsx` — the object
+ * that used them (a coffee mug scene) was re-skinned into a corkboard,
+ * which has nothing to steam. Genuinely unused, not kept "just in case,"
+ * consistent with this project's Design For Deletion principle for dead
+ * code (as opposed to `ASSET_REGISTRY.md`'s own, different convention of
+ * keeping a superseded *data* entry as historical record).
+ */
+
+/*
+ * Intro sequence — Phase G. `IntroSequence.tsx`/`SaveSlot.tsx` drive
+ * their own opacity transitions inline (see those files for why —
+ * fade-in and fade-out need different durations, which a single static
+ * CSS rule can't express); what's here is the Save Slot's own entrance
+ * (a scale+fade, one of the brief's explicitly allowed motion types —
+ * "fade, slide, scale, pixel bounce," no spring/elastic/overshoot) and
+ * the Continue button's hover/press feedback, matching the exact
+ * squash-on-press pattern already established on the Gramophone and
+ * every hotspot (`transform: scale(...)` on `:active`, not a new
+ * mechanism invented for this one control).
+ */
+.save-slot-enter {
+  animation: save-slot-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes save-slot-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-slot-enter {
+    animation: none;
+  }
+
+  .intro-overlay,
+  .intro-title {
+    transition: none !important;
+  }
+}
+
+.save-slot-continue-button {
+  transition: filter 150ms ease, transform 100ms ease;
+}
+
+.save-slot-continue-button:hover {
+  filter: brightness(1.08);
+}
+
+.save-slot-continue-button:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-slot-continue-button {
+    transition: none;
+  }
+}

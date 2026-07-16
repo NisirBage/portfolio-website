@@ -55,3 +55,40 @@ The M0–M5 scale above is defined for *project* evidence (architecture, reposit
 - **Research Journal (Research) — High confidence.** Primary, first-person, current-status content — a real active question, real progress, and real stated unknowns. This is the strongest evidence type this document's scale distinguishes (comparable in kind, though not in form, to what earns a project M3+), specifically because it doesn't hide what's still unresolved.
 
 Same rule as the project scale above: neither rating moves up until new real evidence exists, not when the presentation is polished.
+
+---
+
+## Leadership (Milestone 8, restructured post-Milestone 8)
+
+Leadership gets its own maturity scale, parallel in spirit to the project M0–M5 scale but shaped for achievement content rather than engineering artifacts:
+
+| Level | Name | What it requires |
+|---|---|---|
+| **L0** | Resume Claim | A bare claim exists, no detail. |
+| **L1** | Summary | Clear prose describing what happened, still not independently checkable. |
+| **L2** | Evidence | Specific, named, checkable items — tournament names, dates, roles — not an aggregate adjective. |
+| **L3** | Reflection | Genuine first-person retrospective on a specific round, committee, or role — what was hard, what would change. |
+| **L4** | Artifacts | Certificates, tournament tabs, photographs, invitations, or similar real objects a visitor could see directly. |
+
+### Current levels, per capability
+
+- **Diplomacy — L2.** 36 named items (25 delegate results by tier, 11 individually-named chairing roles), sourced directly from an updated, authoritative CV — see `ENGINEERING_DECISIONS.md`'s "Leadership content evolution" entry for the full delta against the prior version. Not L3: no reflection on any specific committee exists yet. Not L4: no artifacts yet, pending the Google Drive certificate audit (`MISSING_CONTENT.md`).
+- **Communication — L2.** 11 named items (debate record + adjudication assignments), same sourcing and same L3/L4 gaps as Diplomacy.
+- **Leadership — L1.** Director General (BITMUN 2026) is real and named, but this capability's second item, Joint Secretary (UNESQUO Debating Society), is carried forward at the user's explicit direction despite not appearing in the new source CV — tracked as Pending Secondary Verification (`ASSUMPTIONS.md`). A capability containing an unverified item is rated by its weakest real claim, not its strongest, so this stays L1 rather than L2 until that's resolved.
+- **Case Competitions — L2.** Unchanged from Milestone 8 — 2 named placements, not covered by the MUN-specific CV so unaffected by this revision.
+
+**What this replaces.** The previous "Medium confidence, 24 conferences / 6 judged" framing is retired — the aggregate "6 judged, mentoring 200+ participants" claim was removed outright (not merely re-leveled) because the updated CV supports neither number; see the Removed Information entry in `ENGINEERING_DECISIONS.md`.
+
+- **Whiteboard — Not built.** Still the one piece of direct "structures ambiguity into a recommendation" evidence missing from the entire site. Unchanged status; not re-litigated here.
+
+Same rule as above: this rating moves up only when the real framework or per-item detail actually exists, not when the four cluster cards get a visual polish pass.
+
+---
+
+## Timeline, About Me, Future (Phase D)
+
+Like Knowledge/Research and Leadership before them, these three don't map onto the project M0-M5 scale — they're personal narrative, not engineering or achievement evidence. Unlike every other content surface on this site, though, none of it is adapted, sourced, or reconciled from an external document (a resume, a README, a CV) — it comes directly from a genuine one-question-at-a-time interview conducted before any of it was written, with drafts shown back for approval before integration (`INTERVIEW_NOTES.md` is the raw record; `TIMELINE_CONTENT.md`/`ABOUT_ME_CONTENT.md`/`FUTURE_VISION.md` are the approved drafts this content mirrors verbatim). That makes it, by this project's own evidence vocabulary, the highest-confidence content type on the site — primary, first-person, and directly approved by its subject, a stronger evidentiary position than even the Research Journal's "real, first-person, current-status" content, since that content is written by the site (from real underlying facts) rather than by the person it describes.
+
+**Honest limits, not omitted.** Two places in the interview surfaced a genuinely compressed or general answer rather than a specific anecdote (why AI became the throughline; a single defining leadership moment) — the copy stays at that same level of specificity in both cases rather than dramatizing an answer that wasn't given. This is a deliberate content-maturity choice: a true general answer outranks a fabricated specific one, the same principle already governing every other maturity rating in this document.
+
+**What would move this further.** There isn't a "next level" in the way M3→M4 adds a benchmark — this content is already as direct as evidence gets. The one meaningful path forward is more interview depth on the two compressed threads above, if a future session revisits them, not a different kind of evidence being added.

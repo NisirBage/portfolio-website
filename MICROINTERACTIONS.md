@@ -77,3 +77,31 @@ Exits are always faster than the entrance they reverse — roughly 40% faster, c
 | Completion | Reuses Narrative System's "visited glow" | — |
 
 No new visual language is introduced here — every entry above either sets a number that earlier documents left implicit, or points back to a pattern already defined elsewhere. That's intentional: this document's job is reconciliation, not invention.
+
+---
+
+## Phase C, Part 2 & 6 — reconciliation against actual implementation
+
+**Status of this section:** appended, not a rewrite of the design-phase content above — per "repository reality overrides prompts," this reconciles the original spec against what actually shipped through Phase A/B/C, the same way `ENGINEERING_DECISIONS.md` is this project's living implementation counterpart to its frozen design docs.
+
+### The timing scale, superseded
+
+The three-band scale above (Fast 150-250ms / Standard 400-600ms / Slow 700ms) was superseded during Phase B's own timing-standardization pass and again by Phase C's Part 14/6 rework. The current, shipped scale lives in `src/lib/motion.ts` and `UI_THEME.md`'s timing table: **Instant** (80-120ms, press/squash), **Fast** (120-180ms, hover), **Standard** (220-300ms, panel/accordion open), **Slow** (350-450ms, camera pans; panel/accordion close deliberately stays in Fast, not Slow — exits read faster than entrances, the same principle this document's own "Layer Closing" entry already stated). This is a real evolution, not a contradiction: the underlying principle ("one fixed vocabulary, not per-object tuning") is exactly what Phase C's `motion.ts` still enforces, just with numbers matched to what the room actually needed once it existed, rather than numbers estimated before a single hotspot had been built.
+
+### Hover, extended to every interactive object
+
+The original "identical hover treatment on every hotspot" principle is honored and extended: Phase C's `useHoverState` hook (`src/hooks/useHoverState.ts`) is the single implementation every hotspot (Desk, Bookshelf, Research Stand, Leadership frames) and the Gramophone use — a slight lift (`translateY(-3%) scale(1.015)`), a brightness increase, and a drop-shadow, all through the same hook, same values, same Fast-band timing. JS state, not CSS `:hover`, per the investigation trail already recorded in `Gramophone.tsx`'s own comments (CSS `group-hover` didn't reliably verify across three separate attempts in this project's test environment).
+
+### Selection/press, extended
+
+The original "press-down, 98%, 80ms" concept is now: a press-squash (`scale(0.96, 1.04)`, asymmetric rather than uniform — reads more like a real object settling under a fingertip than a uniform shrink) at the Instant band (100ms), plus a brief background highlight flash on the button itself, distinct from the steady hover tint. Both release automatically on mouseup/touchend via the same `useHoverState` hook — no separate timer needed, since the natural press-and-release gesture already brackets the effect.
+
+### Idle animations — now two distinct patterns, not one
+
+The original spec called for one shared idle cadence for "every ambient element." Phase C's implementation has two, deliberately distinct:
+- **`.idle-pulse`** (Phase A/B) — an opacity blink, a *discovery* affordance specifically for unvisited hotspots, dropped once a hotspot is visited (see `useVisitedHotspots`). This is closer to the original document's "Completion Feedback" idea than to its "Idle Animations" one — it's about first-contact discoverability, not ambient life.
+- **`.sprite-breathe`** (Phase C, Part 2) — a genuine ambient idle animation, a subtle scale pulse (3.2s, inside the brief's 2-4s Idle band) on every interactive sprite's own furniture, always on regardless of visited state, each object's `animation-delay` offset from the others (Desk 0s, Knowledge 1.3s, Research 2.6s, Leadership 3.9s, Gramophone 4.8s) so five pieces of furniture don't visibly breathe in lockstep — a direct, intentional instance of this document's own "a scene where different objects breathe at different speeds reads as busy" concern, resolved by choosing offsets specifically so they *don't* sync, not by making them identical.
+
+### Visual hierarchy — resolved in favor of the original "no grading" principle
+
+Phase C's own brief asks for a stated priority order (Desk highest, then Knowledge/Research/Leadership, then decoration) and separately says "never allow decorative objects to compete with primary interactions." Read against this document's pre-existing, explicit "no hotspot gets a stronger or weaker hover treatment because it's more important... affordance shouldn't be graded" principle, the two aren't actually in conflict: the hierarchy is already encoded structurally (Desk has the largest click zone and the deepest content — three projects with accordion and Blueprint reveal, versus Knowledge's flat list) and the "decoration doesn't compete" rule is already satisfied by construction (the walnut bookshelf, paper stack, and other pure-decoration sprites received none of Phase C's hover/press/breathe treatment — only the four real hotspots and the Gramophone did). No hotspot's *microinteraction* was made stronger or weaker than another's; the hierarchy lives in what each object *is*, not in how hard it reacts to a cursor.

@@ -4,7 +4,7 @@ Interactive portfolio for Nisir Sanang Bage. Next.js (App Router), TypeScript (s
 
 ## Status
 
-Architecture frozen. Implementation in progress per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), one milestone at a time. Current milestone: **5 — Desk Focus**, complete.
+Architecture frozen. All 8 planned implementation milestones complete (Repository → Workspace → Camera → Interaction Engine → Desk → Projects → Knowledge/Research → Leadership), plus a post-Milestone-8 content evolution pass and an ongoing Production Hardening phase (cross-browser review, performance review, deployment prep, repository review) per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) and [`PROJECT_HEALTH.md`](PROJECT_HEALTH.md). Not yet deployed — see [`DEPLOYMENT_CHECKLIST.md`](DEPLOYMENT_CHECKLIST.md) for what's still outstanding before it can be.
 
 ## Source of Truth
 
@@ -34,3 +34,11 @@ npm run lint        # eslint
 npm run typecheck   # tsc --noEmit
 npm run build        # production build
 ```
+
+## Deployment
+
+Not yet deployed. See [`DEPLOYMENT_CHECKLIST.md`](DEPLOYMENT_CHECKLIST.md) for the full pre-launch audit. In brief:
+
+- **Environment variables.** One optional variable, `NEXT_PUBLIC_SITE_URL` — sets `metadataBase` for Open Graph/Twitter card resolution and the sitemap's absolute URL. Falls back to `http://localhost:3000` if unset; **must** be set to the real production domain before deploy, or social-share previews and the sitemap will point at localhost.
+- **No other environment variables exist.** No backend, no API keys, no secrets — this is a fully static, client-rendered site.
+- **Build output.** Standard Next.js production build (`npm run build`); no custom `output` mode configured, so any Next.js-compatible host (Vercel, or a Node server running `npm start`) works without extra configuration.

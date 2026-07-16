@@ -27,10 +27,10 @@ interface CameraState {
 export function useCamera(initial: CameraTarget = CAMERA_IDENTITY) {
   const [state, setState] = useState<CameraState>({
     target: initial,
-    durationMs: DURATION.standard,
+    durationMs: DURATION.camera,
   });
 
-  const focus = useCallback((target: CameraTarget, durationMs: number = DURATION.standard) => {
+  const focus = useCallback((target: CameraTarget, durationMs: number = DURATION.camera) => {
     // Deliberately just replaces the target. No queue, no cancellation
     // flag: a CSS `transition` on `transform` interpolates from whatever
     // is currently rendered to the new target automatically, which is
@@ -41,7 +41,7 @@ export function useCamera(initial: CameraTarget = CAMERA_IDENTITY) {
   }, []);
 
   const reset = useCallback(
-    (durationMs: number = DURATION.standard) => focus(CAMERA_IDENTITY, durationMs),
+    (durationMs: number = DURATION.camera) => focus(CAMERA_IDENTITY, durationMs),
     [focus],
   );
 

@@ -49,3 +49,27 @@
 - **Priority.** Low-Medium — the domain-level version is honest and evidenced, not misleading; this is an upgrade opportunity, not a credibility gap.
 - **Current substitute.** A short list of study domains, each explicitly cross-referenced to the real project or research artifact that evidences it.
 - **User action required.** Optional — a short list (3–5 items) of specific named influences, if and when Nisir wants to provide them.
+
+### Leadership Wall — Whiteboard case-competition framework
+
+- **Content needed.** The actual worked framework/recommendation from one real case competition (UNESQUO × 180DC or Consilium 2025) — what the analysis argued, not just that it placed.
+- **Why it matters.** `INTERACTION_SPECIFICATION.md` names this as "the only piece of direct evidence for 'can structure ambiguity into a recommendation'" — every other Leadership claim is a placement or a role, not a demonstration of the reasoning itself. Without it, that specific claim rests on inference from the placement, not direct evidence.
+- **Priority.** Medium — it's the one Consulting-Recruiter-specific artifact in the whole scene, but the four cluster headlines still carry real, honest evidence on their own without it.
+- **Current substitute.** None. The Whiteboard sub-interaction isn't built for Milestone 8 rather than shipped with an invented framework standing in for it — moved to Should Have in `VERSION1_SCOPE.md`.
+- **User action required.** Yes, if this is wanted for Version 1 — a short write-up (or even rough notes) of the actual framework used in one of the two case comps.
+
+### Leadership Wall — per-item reflection copy
+
+- **Content needed.** What each specific MUN conference, debate round, or judged event actually involved — the Level 3 depth `INTERACTION_SPECIFICATION.md`'s original fan-out spec calls "reflection copy... not just the certificate scan."
+- **Why it matters.** Milestone 8 ships cluster-level facts only (real, quantified, resume-sourced); per-item narrative detail would deepen this the same way the Neonatal Simulator's README deepened its project content beyond a resume paraphrase.
+- **Priority.** Low — cluster-level content is honest and sufficient for the grid fallback; this matters more once the fan-out (which opens individual frames) is actually built.
+- **Current substitute.** Cluster-level headline + one-line detail only.
+- **User action required.** Optional, and only relevant once/if the fan-out upgrade is scheduled.
+
+### Rolodex (Contact) — Work Email and LinkedIn
+
+- **Content needed.** A real work/professional email address distinct from the personal one, and a real LinkedIn profile URL.
+- **Why it matters.** Phase F.1's brief specified the Contact popup should contain "Personal Email, Work Email, LinkedIn, GitHub, Resume shortcut" — five rows. `src/content/contact.ts` only defines `personalEmail` and `githubUrl`; Work Email and LinkedIn have no real value anywhere in the repository to draw from. Per Asset Truthfulness (content extension), neither was fabricated — `ContactPanel.tsx` renders three rows (Personal Email, GitHub, Resume shortcut), not five, rather than invent a placeholder address or profile URL that would read as real.
+- **Priority.** Medium, raised from the original log — Phase G's brief independently asked for the same five-row layout ("Personal Email, Work Email, LinkedIn, GitHub, Resume download"), confirming this isn't a one-off oversight in a single brief but a recurring, reasonable expectation.
+- **Current substitute.** None. The two rows are simply not rendered.
+- **User action required.** Yes — a real work email (if one exists separately from the personal address) and a real LinkedIn profile URL would each add one row to `ContactPanel.tsx` via `CONTACT_INFO` in `src/content/contact.ts`.

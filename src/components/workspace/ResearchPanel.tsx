@@ -5,11 +5,14 @@ import { RESEARCH } from "@/content/research";
 
 function Field({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="mb-3">
+    <div className="mb-4">
       <p className="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
+        <span aria-hidden="true" className="section-marker">
+          ▸
+        </span>
         {label}
       </p>
-      <div className="text-sm">{children}</div>
+      <div className="mt-1 text-sm">{children}</div>
     </div>
   );
 }

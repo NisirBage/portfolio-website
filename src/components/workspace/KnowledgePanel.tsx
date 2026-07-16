@@ -17,7 +17,12 @@ export function KnowledgePanel() {
       <ul className="space-y-3">
         {KNOWLEDGE_DOMAINS.map((item) => (
           <li key={item.id} className="border-b border-zinc-200 pb-3 last:border-0 dark:border-zinc-800">
-            <p className="text-sm font-medium">{item.domain}</p>
+            <p className="text-sm font-medium">
+              <span aria-hidden="true" className="section-marker">
+                ▸
+              </span>
+              {item.domain}
+            </p>
             <p className="text-xs text-zinc-500 dark:text-zinc-400">{item.evidence}</p>
           </li>
         ))}
