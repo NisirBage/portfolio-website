@@ -156,12 +156,28 @@ export function LayerPanel({ isOpen, title, onClose, children }: LayerPanelProps
        * an open sheet on short mobile viewports (the brief's own "room
        * visible behind" requirement), and gave less headroom above the
        * sheet for a visitor to tap the backdrop closed one-handed.
+       *
+       * *Revised, Phase H.2, Part 5.* The `layer-panel` class (added
+       * alongside `panel-paper`, scoped separately in `globals.css` so
+       * Toast/TimelinePanel's own `.panel-paper` uses are untouched)
+       * notches the two top corners below the same `640px` boundary
+       * Tailwind's own `sm:` prefix already uses to switch this from a
+       * bottom sheet to a side panel — a small stepped clip-path cut,
+       * not `border-radius`, which this project's panel system
+       * deliberately never uses ("Sharp corners throughout... rounded
+       * corners read as 'app modal'," per this file's own header
+       * comment) — a stepped pixel-art notch reads as "lifted sheet"
+       * without breaking that rule. The footer's `env(safe-area-inset-
+       * bottom)` padding is unconditional rather than portrait-gated:
+       * it only ever evaluates to a non-zero value on a device with a
+       * physical safe-area inset, so it's inert everywhere else,
+       * including the desktop side-panel variant of this same element.
        */}
       <div
         role="dialog"
         aria-labelledby={headingId}
         inert={!isOpen}
-        className={`panel-paper motion-transition absolute inset-x-0 top-auto bottom-0 flex max-h-[75vh] w-full flex-col sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-96 sm:max-w-full ${
+        className={`panel-paper layer-panel motion-transition absolute inset-x-0 top-auto bottom-0 flex max-h-[75vh] w-full flex-col sm:inset-y-0 sm:left-auto sm:right-0 sm:max-h-none sm:w-96 sm:max-w-full ${
           isOpen ? "translate-y-0 sm:translate-x-0" : "translate-y-full sm:translate-y-0 sm:translate-x-full"
         }`}
         style={{
@@ -205,7 +221,7 @@ export function LayerPanel({ isOpen, title, onClose, children }: LayerPanelProps
 
         <hr className="panel-divider shrink-0" />
 
-        <div className="shrink-0 p-5 pt-4">
+        <div className="shrink-0 p-5 pt-4 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
           <button
             type="button"
             onClick={onClose}

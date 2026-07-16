@@ -183,7 +183,7 @@ export function Gramophone() {
             the Gramophone is a toggle (on/off), not a panel a visitor
             "visits" once. A checkmark would misleadingly imply a
             one-time achievement rather than a reversible state. */}
-        <HotspotLabel label="Music" active={isHovered || isPressed} />
+        <HotspotLabel label="Music" active={isHovered || isPressed} priority="secondary" />
       </button>
     </div>
   );

@@ -21,6 +21,57 @@ export const ROOM_CONTENT_BOUNDS = {
 } as const;
 
 /**
+ * Portrait's resting camera target — Phase H.1. Not a guess: derived by
+ * computing the real bounding box of all 10 hotspots' own clickable
+ * areas (`centerXPercent`/`centerYPercent` ± half their button's own
+ * width/height, read from every `*Hotspot.tsx`/`Gramophone.tsx` file,
+ * not estimated) — the box that must stay fully on-screen for "never
+ * crop important interactive objects" to hold. That box spans
+ * x:[8.5, 94.5]% (Leadership's left edge to the Gramophone's right
+ * edge) and y:[7.5, 70.5]% (the Window's top edge to the Gramophone's
+ * bottom edge).
+ *
+ * For a uniform zoom `S` centered at `(cx, cy)`, the visible window is
+ * `[cx − 50/S, cx + 50/S]` (and the same for y). Solving for the
+ * largest `S` that still contains the hotspot box on both axes, with
+ * the pan center chosen to balance the tighter of the two edges rather
+ * than staying at the geometric center (50, 50): `cx = 51.5` (splitting
+ * the 8.5-from-left/94.5-from-right asymmetry evenly) allows `S ≈
+ * 1.163` — a real ceiling, not a round number picked for looking clean.
+ * The y-axis has slack at that same `S` (needs only `cy ∈ [27.5, 50.5]`),
+ * so `cy` stays at the room's own natural 50 rather than moving for no
+ * reason.
+ *
+ * The full 1.163 isn't spent on content zoom alone — see
+ * `Workspace.tsx`'s own comment on why the safety budget is split
+ * between the camera's content zoom and the room frame's own on-page
+ * size, since applying the full amount to both would compound past the
+ * safe ceiling and start cropping Leadership/the Gramophone for real.
+ *
+ * `scale: 1.05` here (not the full √1.163 ≈ 1.078 the math technically
+ * allows) is deliberate margin, not a rounding choice — a first live
+ * test at 1.08/1.08 (combined ≈1.166) measured the Window hotspot's own
+ * top edge clipped by 2px against the frame's `overflow: hidden`. The
+ * math was computed for one specific viewport (390×844); real phones
+ * vary (iPhone SE at 375×667 has a meaningfully different, shorter
+ * aspect ratio, which pushed the Window hotspot's top edge to within
+ * a sub-pixel sliver at 1.05/1.05/y:50 — smaller than a physical pixel
+ * on any real device, but still not a clean positive margin), so
+ * sitting exactly at the calculated ceiling for one device leaves zero
+ * room for any other. `y: 49` nudges the vertical pan down by one
+ * point, relieving the top edge uniformly across every tested aspect
+ * ratio — re-verified live at both 390×844 and 375×667 with zero
+ * clipped hotspots and a real, positive-pixel margin on every edge at
+ * both — see `PORTRAIT_REDESIGN.md` for the full before/after
+ * measurements.
+ */
+export const PORTRAIT_CAMERA_REST = {
+  x: 51.5,
+  y: 49,
+  scale: 1.05,
+} as const;
+
+/**
  * Zone x-ranges, left to right, measured at a wall row clear of the
  * wainscoting band. Matches SPATIAL_BLUEPRINT.md's Option A assignment:
  * Zone 1 = Leadership, Zone 2 = Desk, Zone 3 = Research, Zone 4 = Coffee.

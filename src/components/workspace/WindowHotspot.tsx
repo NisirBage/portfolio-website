@@ -98,12 +98,12 @@ export function WindowHotspot({ onOpen, visited = false }: WindowHotspotProps) {
         {visited && (
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-amber-500/70 bg-amber-100/95 text-[9px] leading-none text-amber-800 dark:bg-amber-950/90 dark:text-amber-300"
+            className="visited-badge-pop pointer-events-none absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full border border-amber-500/70 bg-amber-100/95 text-[9px] leading-none text-amber-800 dark:bg-amber-950/90 dark:text-amber-300"
           >
             ✓
           </span>
         )}
-        <HotspotLabel label="Future" visited={visited} active={isHovered || isPressed} />
+        <HotspotLabel label="Future" visited={visited} active={isHovered || isPressed} priority="secondary" />
       </button>
     </>
   );

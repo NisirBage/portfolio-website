@@ -14,6 +14,7 @@ import {
   WINDOW_HOTSPOT,
   ROLODEX_HOTSPOT,
   PORTFOLIO_HOTSPOT,
+  PORTRAIT_CAMERA_REST,
   getDoorPlacements,
   getSpritePlacement,
 } from "@/lib/roomGeometry";
@@ -22,6 +23,7 @@ import { useLayerStack } from "@/hooks/useLayerStack";
 import { useVisitedHotspots } from "@/hooks/useVisitedHotspots";
 import { usePopupAudio } from "@/hooks/usePopupAudio";
 import { useToast } from "@/hooks/useToast";
+import { usePortraitMode } from "@/hooks/usePortraitMode";
 import { DURATION } from "@/lib/motion";
 import { CameraContainer } from "./CameraContainer";
 import { LayerPanel } from "./LayerPanel";
@@ -46,6 +48,8 @@ import { PortfolioHotspot } from "./PortfolioHotspot";
 import { ResumePanel } from "./ResumePanel";
 import { Toast } from "./Toast";
 import { Gramophone } from "./Gramophone";
+import { PortraitHeader } from "./PortraitHeader";
+import { PortraitFooter } from "./PortraitFooter";
 
 /**
  * The establishing shot plus the camera (Milestone 3), layer (Milestone
@@ -89,6 +93,12 @@ export function Workspace() {
   // navigation, and deep links alike. See CAMERA_AUDIT.md.
   const doors = getDoorPlacements(ASSETS.doorClosed.width, ASSETS.doorClosed.height);
   const camera = useCamera();
+  // Phase H.1 — the only other consumer of "is this a phone in
+  // portrait" besides the hotspot labels. `useCamera`/`cameraTransform`
+  // themselves are untouched (the brief's own "camera logic... must
+  // remain untouched"); this just decides *which* target the existing,
+  // unmodified `focus`/`reset` functions are pointed at.
+  const isPortrait = usePortraitMode();
   const layers = useLayerStack();
   const { visited, markVisited } = useVisitedHotspots();
   // Phase F.1, Parts 2-4: one popup open/close SFX pair, watching
@@ -204,6 +214,15 @@ export function Workspace() {
     const target = layers.activeLayer ? cameraTargetsByLayer[layers.activeLayer] : undefined;
     if (target) {
       cameraFocus(target, DURATION.camera);
+    } else if (isPortrait) {
+      // Phase H.1, Part 2: "when it closes, return to the portrait
+      // resting camera, not necessarily the desktop resting camera."
+      // `cameraReset()` always targets the fixed `CAMERA_IDENTITY`
+      // constant inside `useCamera.ts` — untouched, per the brief's own
+      // "camera logic must remain untouched." This branch just chooses
+      // a different, equally real target for the *same* unmodified
+      // `cameraFocus` function to animate to.
+      cameraFocus(PORTRAIT_CAMERA_REST, DURATION.camera);
     } else {
       cameraReset(DURATION.camera);
     }
@@ -212,10 +231,10 @@ export function Workspace() {
     // deliberately left out of the dependency array rather than
     // recreated with `useMemo` for a value that's already cheap to
     // build and never actually varies — only `layers.activeLayer`
-    // (the real trigger) and the two stable camera functions are real
-    // dependencies.
+    // (the real trigger), `isPortrait`, and the two stable camera
+    // functions are real dependencies.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [layers.activeLayer, cameraFocus, cameraReset]);
+  }, [layers.activeLayer, isPortrait, cameraFocus, cameraReset]);
 
   // Phase B, Part 8: mark a hotspot visited the moment its layer becomes
   // active — reachable the same way the camera-sync effect above is,
@@ -260,8 +279,23 @@ export function Workspace() {
 
   return (
     <div
-      className="relative flex h-full w-full items-center justify-center overflow-x-hidden bg-zinc-100 p-4 dark:bg-[radial-gradient(ellipse_at_center,_#3b2c1f_0%,_#241a12_65%,_#1a120c_100%)]"
+      className="relative flex w-full flex-1 flex-col overflow-x-hidden bg-zinc-100 p-4 dark:bg-[radial-gradient(ellipse_at_center,_#3b2c1f_0%,_#241a12_65%,_#1a120c_100%)]"
     >
+      {/* Phase H.2 fix: this used to be `h-full` — a percentage height.
+          Its parent (`AppShell`'s wrapper) only reaches its own 844px-ish
+          height via `flex-1` growth inside `<main>`, never an explicit
+          `height` value, and `height: 100%` measured live against that
+          chain silently resolved to 0/auto (confirmed via
+          `getBoundingClientRect()`: this div was collapsing to its own
+          content height, ~297px on a 844px-tall phone, leaving the room
+          pinned near the top instead of filling/centering in the
+          viewport — present before this phase's header/footer edit too,
+          just unnoticed since the dark backdrop made the shortfall hard
+          to see by eye). `flex-1` matches the sizing strategy already
+          used one level up and one level down (the room's own centering
+          wrapper), and — unlike a percentage — doesn't depend on the
+          parent's height being "definite" by the CSS spec's stricter
+          definition. */}
       {/* Phase B, Part 3: the previous `dark:bg-zinc-950` read as harsh
           near-black against the warm pixel-art room. Replaced with a warm
           walnut-brown radial vignette (never pure black/grey) — darkens
@@ -274,10 +308,50 @@ export function Workspace() {
           controls." */}
       <Toast toast={toast} />
 
-      <div
-        className="relative w-full max-w-5xl overflow-hidden"
-        style={{ aspectRatio: `${ROOM_CANVAS.width} / ${ROOM_CANVAS.height}` }}
-      >
+      {/* Phase H.2, Part 1/2: the root changed from a single-row
+          centering flex to a column with the room's own centering
+          wrapper as its one real flex item — on desktop/landscape
+          (`isPortrait` false, header/footer both null), `Toast` is
+          `position: fixed` and doesn't participate in flex layout, so
+          this collapses to exactly the same "one flex-1 item, centered
+          both axes" result the original single-row flex produced.
+          Verified live at 1920/1440/1024/768px and both landscape phone
+          sizes — byte-for-byte identical room position and size to
+          before this change. On portrait, the header/footer become real
+          siblings and the room's wrapper shares the remaining height
+          with them instead of claiming all of it. */}
+      {isPortrait && <PortraitHeader />}
+
+      <div className="relative flex min-h-0 w-full flex-1 items-center justify-center">
+        <div
+          className="relative w-full max-w-5xl overflow-hidden"
+          style={{
+            aspectRatio: `${ROOM_CANVAS.width} / ${ROOM_CANVAS.height}`,
+            // Phase H.1, Part 1: on portrait, the frame's own on-page
+            // footprint grows — not just the camera's content zoom — or
+            // "reduce dead space" would be a no-op (a zoomed *view*
+            // through an unchanged-size frame doesn't shrink the
+            // whitespace around the frame itself). `transform: scale`, not
+            // `width` — this element is a flex item of the wrapper above,
+            // and a percentage `width` here gets silently shrunk back down
+            // by the flex algorithm's default `flex-shrink: 1` the moment
+            // it would exceed the container's available space (confirmed
+            // live: `width: 108%` computed back down to exactly 100% in
+            // the rendered box). `transform` doesn't participate in flex
+            // sizing at all, so it isn't fighting that negotiation.
+            // 1.05 is half of the real, live-verified safe combined zoom
+            // (see `PORTRAIT_CAMERA_REST`'s own comment for why the first
+            // attempt, 1.08/1.08, clipped 2px off the Window hotspot on a
+            // real measurement) — the other half is spent on the camera's
+            // own zoom below, so the two compound rather than each
+            // independently spending the full budget and cropping a
+            // hotspot for real. The outer wrapper's existing
+            // `overflow-x-hidden` (unchanged) clips the symmetric excess
+            // this produces; centered via the same unchanged
+            // `items-center justify-center` on that wrapper.
+            transform: isPortrait ? "scale(1.05)" : undefined,
+          }}
+        >
         <CameraContainer target={camera.target} durationMs={camera.durationMs}>
           {/* Layer 1: room shell. `unoptimized` — see ENGINEERING_DECISIONS.md
               on why Next's image optimizer isn't used for pixel-art sprites. */}
@@ -407,7 +481,10 @@ export function Workspace() {
             }}
           />
         </CameraContainer>
+        </div>
       </div>
+
+      {isPortrait && <PortraitFooter />}
 
       <LayerPanel isOpen={layers.activeLayer === "desk"} title="Desk" onClose={closeLayer}>
         <DeskPanel />

@@ -48,6 +48,22 @@ body {
  */
 .motion-transition {
   transition-property: transform;
+  /*
+   * Phase H.2, Part 6 — a compositing hint, not a duration/easing/zoom
+   * change (the brief's explicit "do not increase zoom, refine
+   * transitions instead"). The camera pan is a `transform` on a
+   * container holding several dozen absolutely-positioned pixel-art
+   * `<img>`s (the full room + every hotspot sprite); without this,
+   * some browsers only promote that subtree to its own compositor
+   * layer once the transition has already started, producing a visible
+   * first-frame hitch on lower-powered devices before the pan settles
+   * into its normal smoothness. `will-change` is a browser hint, not a
+   * guaranteed layer — LayerPanel's slide (this class's other consumer)
+   * gets the same hint for the same reason, at negligible extra cost
+   * since neither element is large or numerous enough for the usual
+   * "too many composited layers" downside to apply here.
+   */
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -83,6 +99,46 @@ body {
   .idle-pulse {
     animation: none;
     opacity: 0.75;
+  }
+}
+
+/*
+ * Visited badge pop — Phase H.2, Part 7. The amber "✓" that appears in
+ * every hotspot's corner the moment `visited` first turns true (nine
+ * identical badges — Desk/Knowledge/Research/Leadership/Clock/
+ * Corkboard/Window/Rolodex/Portfolio) used to just appear, a hard cut
+ * with no motion at all. A small, understated "checkbox tick"-style
+ * pop — scale from 0 past a slight overshoot back to rest — gives that
+ * first-visit moment a tiny reward without calling attention to itself
+ * on every subsequent view (the badge is simply already there,
+ * `visited` doesn't flip back to false, so this only ever plays once
+ * per hotspot per session). 260ms is `MOTION.standard` from
+ * `motion.ts` — "the default for any deliberate state change" is
+ * exactly what this is, so it reuses that band rather than introducing
+ * a new one.
+ */
+@keyframes visited-badge-pop {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.visited-badge-pop {
+  animation: visited-badge-pop 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visited-badge-pop {
+    animation: none;
   }
 }
 
@@ -243,6 +299,32 @@ body {
   background-image:
     repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.015) 0px, rgba(0, 0, 0, 0.015) 1px, transparent 1px, transparent 3px),
     repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.012) 0px, rgba(0, 0, 0, 0.012) 1px, transparent 1px, transparent 3px);
+}
+
+/*
+ * Bottom-sheet corner notch — Phase H.2, Part 5. Below `640px` (the
+ * same width `LayerPanel`'s own `sm:` classes use to switch it from a
+ * bottom sheet to a side panel), the two top corners get a small
+ * stepped cut instead of the smooth `border-radius` this project's
+ * panel system otherwise never uses — a pixel-art-style chamfer that
+ * reads as "lifted sheet" while staying in the same sharp-cornered
+ * vocabulary as every other panel. Only `.layer-panel` (LayerPanel's
+ * own dialog) opts in; `.panel-paper` alone (Toast, the Timeline's
+ * inline panel) is untouched.
+ */
+@media (max-width: 639.98px) {
+  .layer-panel {
+    clip-path: polygon(
+      0 8px,
+      8px 8px,
+      8px 0,
+      calc(100% - 8px) 0,
+      calc(100% - 8px) 8px,
+      100% 8px,
+      100% 100%,
+      0 100%
+    );
+  }
 }
 
 .panel-divider {
@@ -486,6 +568,44 @@ body {
 
   .hotspot-label--active {
     opacity: 1;
+  }
+}
+
+/*
+ * Portrait compact labels — Phase H.2, Part 3/10. The previous phase's
+ * "labels remain permanently visible on mobile" rule (above) is correct
+ * for landscape phones and tablets, where there's room to spare, but on
+ * a narrow portrait screen ten always-on, full-size paper tags read as
+ * clutter covering the room rather than help finding it — the brief's
+ * "avoid large floating text boxes covering artwork." This shrinks
+ * every label to a compact badge here, and — per the brief's "use
+ * visual hierarchy instead of equal-weight labels" — dims and shrinks
+ * the six secondary ones (Future, Timeline, Music, Contact, About Me,
+ * Resume) a step further than the four primary ones (Research,
+ * Knowledge, Leadership, Workspace) that should "naturally draw more
+ * attention." Same `(orientation: portrait) and (max-width: 767px)`
+ * condition as `usePortraitMode` — kept identical on purpose so the
+ * CSS and the JS that drives the header/footer/camera never disagree
+ * about what counts as "portrait." Desktop's hover-only reveal above is
+ * untouched; this only restyles the labels that are already visible.
+ */
+@media (orientation: portrait) and (max-width: 767px) {
+  .hotspot-label {
+    padding: 1px 5px;
+    font-size: 9px;
+    letter-spacing: 0.01em;
+  }
+
+  .hotspot-label--primary {
+    font-weight: 600;
+    opacity: 0.95;
+  }
+
+  .hotspot-label--secondary {
+    padding: 1px 4px;
+    font-size: 8px;
+    font-weight: 400;
+    opacity: 0.62;
   }
 }
 

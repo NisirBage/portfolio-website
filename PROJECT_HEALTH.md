@@ -2,7 +2,7 @@
 
 **Purpose.** If you returned to this repository with no memory of building it, this document should answer "where does it stand?" in five minutes, without reading anything else. It is not a changelog and not a roadmap — those live in `git log` and `IMPLEMENTATION_PLAN.md` respectively. This is a snapshot, current only as of the milestone noted below, and it should be updated at the end of every milestone before any other retrospective is written.
 
-**Last updated:** End of Phase H (Production Launch, Mobile Experience & Final Polish — v1.0).
+**Last updated:** End of Phase H.2 (Portrait UX Refinement & Mobile Experience Polish).
 
 ---
 
@@ -21,7 +21,7 @@
 | Implementation | 🟢 8/11 milestones; feature-frozen — Concept Reconciliation, Workspace Decoration, and the Final Deployment Audit have since closed out real launch-readiness gaps outside the numbered milestone list |
 | Content | 🟢 Leadership rebuilt from an authoritative source; other gaps unchanged and logged |
 | Assets | 🟢 All 9 hotspots visually complete (Phase F.1 added Corkboard, Rolodex, Leather Portfolio, 12 UI icons, and the real 3-file audio set); Desk fully dressed with 8 generated items |
-| Accessibility | 🟢 Full keyboard/focus/contrast audit complete; a real 0×0 layout collapse found and fixed by Phase H's mobile sweep; `inert`/Firefox real-device check remains the one open item |
+| Accessibility | 🟢 Full keyboard/focus/contrast audit complete; a real 0×0 layout collapse found and fixed by Phase H's mobile sweep; a second, related layout bug (the room's own root silently not filling its parent's height on every viewport, not just narrow ones) found and fixed in Phase H.2 — see `ENGINEERING_DECISIONS.md`; `inert`/Firefox real-device check remains the one open item |
 | Performance | 🟢 Healthy, measured (729 KB JS + 40 KB CSS + on-demand-only images/audio), no speculative optimization applied |
 | Deployment | 🟡 Fully prepared, not yet deployed — `DEPLOYMENT_GUIDE.md`/`VERCEL_SETUP.md` are real, followable instructions; deployment itself is a user action (no git remote/Vercel auth exists in this environment, and connecting either is account-level) |
 | Testing | 🟡 Manual only, no automated suite (unchanged, accepted) |
