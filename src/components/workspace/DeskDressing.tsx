@@ -28,13 +28,21 @@ import { DESK_HOTSPOT, getSpritePlacement } from "@/lib/roomGeometry";
  * "don't trust the math alone" lesson as the rest of this project's
  * verification methodology) showed the Lamp visually swallowing the
  * Notebook's corner. Repositioned based on that render, not the box
- * math: final bounding-box overlaps are Keyboard/Mouse touching at
- * their shared edge (realistic — a mouse sits directly beside a
- * keyboard) and Notebook/Blueprint overlapping by roughly 15% of the
- * Blueprint's own footprint (it "leans against" the Notebook, plausible
- * desk clutter) — both confirmed non-distracting in the composite
- * render, not just computed. Every item is at least ~85% independently
- * visible in the actual rendered result.
+ * math: final bounding-box overlaps are Notebook/Blueprint overlapping
+ * by roughly 15% of the Blueprint's own footprint (it "leans against"
+ * the Notebook, plausible desk clutter) — confirmed non-distracting in
+ * the composite render, not just computed. Every item is at least ~85%
+ * independently visible in the actual rendered result.
+ *
+ * *Revised, post-Phase-H.2.* `deskMonitor`/`deskKeyboard`/`deskMouse`
+ * (three separate generated-set sprites) are replaced by
+ * `ASSETS.computerSystem`, one real user-supplied image already
+ * depicting the monitor, keyboard, and mouse as a single composition —
+ * see that asset's own comment in `assets.ts` for the crop/keying/
+ * downscale account. Positioned at the combined center of the three
+ * items it replaces (their old bounding boxes spanned roughly x:[-10,15]
+ * y:[-14.5,10.5], center ≈(2.5,-2)) so the desk's overall balance is
+ * unchanged, just consolidated into one sprite instead of three.
  */
 
 interface DeskItem {
@@ -45,12 +53,10 @@ interface DeskItem {
 }
 
 const DESK_ITEMS: DeskItem[] = [
-  { asset: ASSETS.deskMonitor, offsetX: -2, offsetY: -9, alt: "" },
+  { asset: ASSETS.computerSystem, offsetX: 3, offsetY: -2, alt: "" },
   { asset: ASSETS.deskLamp, offsetX: 13, offsetY: -9, alt: "" },
   { asset: ASSETS.deskPencilCup, offsetX: -19, offsetY: -9, alt: "" },
   { asset: ASSETS.deskCoffeeMug, offsetX: -17, offsetY: 5, alt: "" },
-  { asset: ASSETS.deskKeyboard, offsetX: 0, offsetY: 4, alt: "" },
-  { asset: ASSETS.deskMouse, offsetX: 11, offsetY: 5, alt: "" },
   { asset: ASSETS.deskNotebook, offsetX: 19, offsetY: 1, alt: "" },
   { asset: ASSETS.deskBlueprintRoll, offsetX: 18, offsetY: 10, alt: "" },
 ];

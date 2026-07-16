@@ -14,19 +14,23 @@ import { HotspotLabel } from "./HotspotLabel";
  *
  * *Re-scaled and re-sprited, Phase F.2.* The Phase F.1 Rolodex sprite
  * (30×26, AI-generated) read as visually imported from a different style
- * than the room's real, native-pack furniture. `ASSETS.ledger` now
- * renders here instead — a small closed book cropped directly from
+ * than the room's real, native-pack furniture. `ASSETS.ledger` rendered
+ * here instead — a small closed book cropped directly from
  * `TopDownHouse_SmallItems.png` — per the brief's stated preference
  * order (Address Book, Ledger, Clipboard, Memo Board); a direct
  * inspection of that sheet found no address book, clipboard, or memo
- * board, only two book sprites, so the closed book stands in as the
- * Ledger (see `ASSETS.ledger`'s own comment in `assets.ts`). The
- * component file itself keeps its `RolodexHotspot` name — renaming a
- * file is a code-organization change, out of scope for a sprite-only
- * pass — but the `aria-label` below now says "Ledger," matching what a
- * visitor actually sees, since leaving it saying "Rolodex" over a
- * ledger sprite would tell screen-reader users something the sighted
- * view no longer shows.
+ * board, only two book sprites, so the closed book stood in as the
+ * Ledger (see `ASSETS.ledger`'s own comment in `assets.ts`).
+ *
+ * *Re-sprited again, post-Phase-H.2.* Real user-supplied art arrived for
+ * this hotspot — a red rotary telephone — replacing the Ledger.
+ * `ASSETS.telephone` renders here now; `ASSETS.ledger` and the original
+ * `ASSETS.rolodex` both stay registered as historical record, per this
+ * registry's "corrected, not erased" convention. The component file
+ * itself keeps its `RolodexHotspot` name — renaming a file is a
+ * code-organization change, out of scope for a sprite-only pass — but
+ * the `aria-label` below now says "Telephone," matching what a visitor
+ * actually sees.
  */
 
 interface RolodexHotspotProps {
@@ -38,8 +42,8 @@ export function RolodexHotspot({ onOpen, visited = false }: RolodexHotspotProps)
   const sprite = getSpritePlacement(
     ROLODEX_HOTSPOT.centerXPercent,
     ROLODEX_HOTSPOT.centerYPercent,
-    ASSETS.ledger.width,
-    ASSETS.ledger.height,
+    ASSETS.telephone.width,
+    ASSETS.telephone.height,
   );
   const { isHovered, isPressed, handlers } = useHoverState();
 
@@ -57,10 +61,10 @@ export function RolodexHotspot({ onOpen, visited = false }: RolodexHotspotProps)
         }}
       >
         <Image
-          src={ASSETS.ledger.src}
+          src={ASSETS.telephone.src}
           alt=""
-          width={ASSETS.ledger.width}
-          height={ASSETS.ledger.height}
+          width={ASSETS.telephone.width}
+          height={ASSETS.telephone.height}
           unoptimized
           priority
           className="pixel-art pointer-events-none absolute inset-0 h-full w-full select-none transition-[filter,transform]"
@@ -74,7 +78,7 @@ export function RolodexHotspot({ onOpen, visited = false }: RolodexHotspotProps)
       <button
         type="button"
         onClick={onOpen}
-        aria-label="Open the Ledger — contact"
+        aria-label="Open the Telephone — contact"
         {...handlers}
         className={`absolute flex items-center justify-center rounded-sm border-2 outline-offset-2 transition-colors hover:border-amber-400/70 hover:bg-amber-200/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-500 ${visited ? "border-amber-400/40" : "idle-pulse border-transparent"}`}
         style={{

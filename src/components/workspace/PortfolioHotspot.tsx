@@ -12,6 +12,22 @@ import { HotspotLabel } from "./HotspotLabel";
  * panel, replacing `PersistentActions`' screen-fixed Resume download
  * link entirely. Same shared pattern as every other hotspot — see
  * `DeskHotspot.tsx`.
+ *
+ * *Re-sprited twice, post-Phase-H.2.* Phase F.2 replaced the Rolodex
+ * hotspot's AI-generated sprite with `ASSETS.ledger` — a small book
+ * cropped from the native "Top-Down Retro Interior" pack — because the
+ * old AI-generated sprite read as visually imported from a different
+ * style than the room's real furniture. That pass never touched this
+ * hotspot, so it kept rendering `ASSETS.portfolio` (26×26, the original
+ * AI-generated sprite) at roughly 4x `ASSETS.ledger`'s footprint —
+ * exactly the disproportion Phase F.2 existed to fix, just missed here.
+ * First fixed by pointing this hotspot at `ASSETS.ledger` too (same
+ * crop as Contact). Within that same phase, real user-supplied art
+ * arrived for this hotspot specifically — a red document folder — so it
+ * now renders `ASSETS.resumeFolder` instead, a purpose-made asset rather
+ * than reusing Contact's own. `ASSETS.portfolio` and the brief interim
+ * use of `ASSETS.ledger` are both left on record, not deleted, per this
+ * registry's "corrected, not erased" convention.
  */
 
 interface PortfolioHotspotProps {
@@ -23,8 +39,8 @@ export function PortfolioHotspot({ onOpen, visited = false }: PortfolioHotspotPr
   const sprite = getSpritePlacement(
     PORTFOLIO_HOTSPOT.centerXPercent,
     PORTFOLIO_HOTSPOT.centerYPercent,
-    ASSETS.portfolio.width,
-    ASSETS.portfolio.height,
+    ASSETS.resumeFolder.width,
+    ASSETS.resumeFolder.height,
   );
   const { isHovered, isPressed, handlers } = useHoverState();
 
@@ -42,10 +58,10 @@ export function PortfolioHotspot({ onOpen, visited = false }: PortfolioHotspotPr
         }}
       >
         <Image
-          src={ASSETS.portfolio.src}
+          src={ASSETS.resumeFolder.src}
           alt=""
-          width={ASSETS.portfolio.width}
-          height={ASSETS.portfolio.height}
+          width={ASSETS.resumeFolder.width}
+          height={ASSETS.resumeFolder.height}
           unoptimized
           priority
           className="pixel-art pointer-events-none absolute inset-0 h-full w-full select-none transition-[filter,transform]"

@@ -2,7 +2,17 @@
 
 **Status:** Approved by user (em dashes removed per revision request). Built entirely from `INTERVIEW_NOTES.md`. Written to show rather than announce, no "I am passionate about," no "I love technology," per the brief's own instruction.
 
+**Revised, Phase H.2:** condensed from seven paragraphs to two per explicit instruction ("keep it concise and to the point" — employers spend only a brief time per portfolio). No facts changed; only trimmed. The original seven-paragraph version is kept below, unmodified, as the historical record — the live site now renders the condensed version that follows immediately after this note.
+
 ---
+
+I read widely and unapologetically: subaltern literature, philosophy, fiction from anywhere, told through whatever technique the story demands. The same appetite carries into art, where I'm drawn to work that commits to a real point of view rather than playing it safe. That's part of why this portfolio looks the way it does: I'd rather build something that reflects that than default to a clean, corporate-minimalist template.
+
+What actually pulls me into a project is whether it can go somewhere real, not just prove a point on paper; I'll take a problem with real context over an isolated exercise every time. Success, to me, isn't a title. It's solving something I'm genuinely invested in while still making a living doing it. And what I notice in other people is the same thing: passion, in any trade, that adds up to a purposeful life.
+
+---
+
+## Original (pre-Phase-H.2), kept for the record
 
 I read the way some people breathe. My favorite book is *Johnny Got His Gun*, the most harrowing piece of war literature I've come across: a man who loses his own agency to a war he never chose, then gets left behind and experimented on by the very institutions he risked everything for. Being trapped inside a body that won't respond isn't just a wartime image to me. It's the same premise behind Alzheimer's, dementia, paralysis, real conditions that show up far from any battlefield. That's the kind of book that stays.
 

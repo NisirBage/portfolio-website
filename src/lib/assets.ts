@@ -121,6 +121,15 @@ export const ASSETS = {
    * supersedes (Engineering Notebook and Rolled Blueprint are more
    * specific evidence of technical work than an unlabeled paper stack).
    */
+  /**
+   * Superseded, post-Phase-H.2 — `DeskDressing.tsx` no longer renders
+   * `deskMonitor`/`deskKeyboard`/`deskMouse` as three separate items.
+   * Direct instruction supplied a real, user-provided pixel-art
+   * "computer system" image (monitor + keyboard + mouse, one
+   * composition) to replace them as a single sprite — see
+   * `ASSETS.computerSystem` below. Left registered, not deleted, per
+   * this registry's "corrected, not erased" convention.
+   */
   deskMonitor: {
     src: "/assets/desk/monitor.png",
     width: 16,
@@ -138,6 +147,39 @@ export const ASSETS = {
     width: 8,
     height: 11,
     registryRef: "ASSET_REGISTRY.md#generated-desk-set",
+  },
+  /**
+   * Computer system — post-Phase-H.2, user-supplied pixel-art image
+   * (monitor + keyboard + mouse, one composition; saved from chat as
+   * `compu chill.jpeg`, 736×736, JPEG with a flat white background, no
+   * alpha channel). Background removed via a connected-component flood
+   * fill from the canvas border (a strict near-white binary mask,
+   * R/G/B≥248, rather than the chain-tolerant color-distance fill used
+   * elsewhere in this project — the object's own casing is white/light
+   * grey, the same color family as the background, and a looser
+   * tolerance leaked through the JPEG-softened outline into the
+   * monitor's interior on first attempt; the stricter binary mask held
+   * the black outline as a wall). Downscaled from the resulting 719×638
+   * tight crop via a premultiplied-alpha Lanczos resize (avoids the dark
+   * edge fringing a naive RGBA resize produces against a transparent
+   * background).
+   *
+   * Sized to 24×21, not to its own best standalone legibility (a 40×35
+   * test render read noticeably crisper) — the desk furniture sprite
+   * itself is only 48×33, and the three items this replaces
+   * (`deskMonitor`+`deskKeyboard`+`deskMouse`) previously occupied a
+   * combined ~25×25 footprint at their old positions; 40×35 would have
+   * exceeded the desk's own height. 24×21 keeps the same footprint the
+   * three separate items already used. At this size the screen's
+   * internal zigzag detail and the cable coils read softly rather than
+   * crisply — logged honestly, same as the original Generated Desk
+   * Set's own keyboard entry, rather than claimed sharper than it is.
+   */
+  computerSystem: {
+    src: "/assets/desk/computer-system.png",
+    width: 24,
+    height: 21,
+    registryRef: "ENGINEERING_DECISIONS.md#phase-h2-post-launch-asset-swaps",
   },
   deskPencilCup: {
     src: "/assets/desk/pencil-cup.png",
@@ -337,6 +379,16 @@ export const ASSETS = {
     height: 26,
     registryRef: "ASSET_REGISTRY.md#ui-asset-sheet-phase-f1",
   },
+  /**
+   * Superseded, post-Phase-H.2 — this sprite's AI-generated 26×26
+   * footprint was flagged as disproportionate next to the room's real,
+   * native-pack furniture. Briefly repointed to `ASSETS.ledger` (the
+   * Contact hotspot's own sprite) as an interim fix, then superseded
+   * again within the same phase once a real, user-supplied folder image
+   * arrived — `PortfolioHotspot.tsx` now renders `ASSETS.resumeFolder`
+   * instead (see below). Left registered, not deleted, per this
+   * registry's "corrected, not erased" convention.
+   */
   portfolio: {
     src: "/assets/narrative/portfolio.png",
     width: 26,
@@ -371,6 +423,69 @@ export const ASSETS = {
     width: 7,
     height: 8,
     registryRef: "ENGINEERING_DECISIONS.md#phase-f2-asset-replacement",
+  },
+  /**
+   * Superseded, post-Phase-H.2 — the previous turn's fix pointed
+   * `PortfolioHotspot.tsx` at this same `ledger` sprite as an interim
+   * proportion fix. Within the same phase, real user-supplied art
+   * arrived for both the Resume and Contact hotspots (a folder and a
+   * telephone — see `resumeFolder`/`telephone` below), so `ledger` is no
+   * longer rendered anywhere; it remains the Contact hotspot's own
+   * historical predecessor asset. Not deleted, per this registry's
+   * "corrected, not erased" convention.
+   */
+  /**
+   * Resume Folder — post-Phase-H.2, replaces `ASSETS.ledger` as the
+   * Resume hotspot's sprite. Real, user-supplied pixel-art image (a red
+   * document folder; saved from chat as `download (2).jpeg`, 512×512
+   * JPEG, white background, no alpha). A "COLOR by NUMBER" watermark
+   * badge sits in the source image's own bottom-right corner, well clear
+   * of the folder artwork itself (folder content bbox: x 135–420,
+   * y 33–438; badge bbox: x 339–511, y 484–511) — cropped out entirely
+   * before background keying, not part of the shipped asset. Background
+   * removed via the same connected-component flood fill as the other
+   * two new assets from this batch (chain-tolerant color-distance fill,
+   * tolerance 30 — safe here since the folder's own colors, reds and
+   * tans, are far from white, unlike the computer sprite above).
+   * Downscaled via premultiplied-alpha Lanczos resize to 10×14 — close
+   * in scale to `deskNotebook` (10×12), a reasonable "paper document"
+   * footprint for the room, and a like-for-like replacement of
+   * `ledger`'s own 7×8 scale rather than the old AI-generated
+   * `portfolio` sprite's disproportionate 26×26.
+   */
+  resumeFolder: {
+    src: "/assets/narrative/resume-folder.png",
+    width: 10,
+    height: 14,
+    registryRef: "ENGINEERING_DECISIONS.md#phase-h2-post-launch-asset-swaps",
+  },
+  /**
+   * Telephone — post-Phase-H.2, replaces `ASSETS.ledger` as the Contact
+   * hotspot's sprite (the Rolodex/Ledger's own conceptual successor —
+   * this room's asset registry has now cycled through Rolodex → Ledger
+   * → Telephone for this one hotspot, each swap left registered rather
+   * than deleted). Real, user-supplied pixel-art image (a red rotary
+   * telephone; saved from chat as `download (1).jpeg`, 735×588 JPEG, a
+   * light lavender gradient background, no alpha). Background removed
+   * via the same connected-component chain-tolerant flood fill as the
+   * folder above (tolerance 18, lower than the folder's — this fill has
+   * to follow the background's own smooth gradient from corner to
+   * corner without also eating into the phone's light grey dial, so a
+   * tighter per-step tolerance was needed here specifically). One small
+   * enclosed white pocket survives inside the coiled cord — the coil
+   * doesn't fully close, so a sliver of the original background is
+   * topologically inside the silhouette, unreachable from a
+   * border-seeded flood fill; visible in the full-resolution keyed
+   * source, not visible at the 16×10 shipped size. Downscaled via
+   * premultiplied-alpha Lanczos resize to 16×10 — comparable in scale to
+   * `ASSETS.clock` (15×15), the hotspot this shares its high-wall band
+   * with.
+   */
+  telephone: {
+    src: "/assets/narrative/telephone.png",
+    width: 16,
+    height: 10,
+    registryRef: "ENGINEERING_DECISIONS.md#phase-h2-post-launch-asset-swaps",
   },
   /**
    * Save Slot frame and Continue button — Phase G, cropped from the

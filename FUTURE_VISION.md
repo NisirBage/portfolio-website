@@ -2,7 +2,19 @@
 
 **Status:** Approved by user (with two revisions: more employer-friendly framing, em dashes removed). Built entirely from `INTERVIEW_NOTES.md`; the revision changes emphasis and punctuation only, no new facts were added.
 
+**Revised again, Phase H.2:** condensed from four paragraphs to three per explicit instruction ("keep it concise and to the point"). The consulting and research-direction paragraphs were merged, and the closing paragraph's Kafka/Moby-Dick aside was cut as a tangent that cost length without adding signal. No facts changed. The four-paragraph version is kept below, unmodified, as the historical record.
+
 ---
+
+I'm deliberately keeping my options open right now, grad school, industry, a startup, while I figure out where to ground myself long-term in a career I actually like, not just one I fell into.
+
+Consulting is the closest thing to a compass I have: problem-solving applied to real businesses, where the soft skills I've built through years of debate and leadership become an actual edge. I'm also genuinely pulled toward scientific ML and NLP, and the ML and data-analytics work I'm doing now is useful groundwork either way.
+
+Whatever shape this takes, the goal stays the same: I want to lead an impactful life, for myself and for the people around me, and that's the part I keep my focus on.
+
+---
+
+## Original (pre-Phase-H.2), kept for the record
 
 I'm deliberately keeping my options open right now, grad school, industry, a startup. I'd rather use this stage to explore properly than lock into the wrong path early. What I do know is that I want to eventually ground myself in a career I actually like, not just one I fell into.
 
