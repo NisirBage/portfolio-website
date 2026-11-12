@@ -6,7 +6,7 @@ Website link: https://nisirsdesktop.vercel.app
 
 ## Status
 
-Architecture frozen. All 8 planned implementation milestones complete (Repository → Workspace → Camera → Interaction Engine → Desk → Projects → Knowledge/Research → Leadership), plus a post-Milestone-8 content evolution pass and an ongoing Production Hardening phase (cross-browser review, performance review, deployment prep, repository review) per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) and [`PROJECT_HEALTH.md`](PROJECT_HEALTH.md). Not yet deployed — see [`DEPLOYMENT_CHECKLIST.md`](DEPLOYMENT_CHECKLIST.md) for what's still outstanding before it can be.
+Architecture frozen. All 8 planned implementation milestones complete (Repository → Workspace → Camera → Interaction Engine → Desk → Projects → Knowledge/Research → Leadership), plus a post-Milestone-8 content evolution pass and an ongoing Production Hardening phase (cross-browser review, performance review, deployment prep, repository review) per [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md) and [`PROJECT_HEALTH.md`](PROJECT_HEALTH.md). Deployed at https://nisirsdesktop.vercel.app; [`DEPLOYMENT_CHECKLIST.md`](DEPLOYMENT_CHECKLIST.md) tracks remaining hardening items.
 
 ## Source of Truth
 

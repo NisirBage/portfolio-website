@@ -28,7 +28,7 @@ export const PROJECTS: readonly ProjectDetail[] = [
     id: "industrial-safety-platform",
     title: "Industrial Safety Intelligence Platform",
     oneLiner:
-      "AI-powered risk assessment, permit intelligence, and equipment health monitoring with explainable AI workflows.",
+      "Deterministic, explainable risk engine for industrial permits, gas exposure and equipment status; an LLM is used only for narrative explanation.",
     summary:
       "A backend platform that treats industrial safety as four separable concerns — risk assessment, permit intelligence, worker exposure monitoring, and equipment health — rather than one monolithic system. Each capability is a modular REST service, which is what lets a dashboard consume all four without any one of them becoming a bottleneck for the others.",
     architecture: [
